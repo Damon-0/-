@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>信息元宇宙 - 内容推广工具</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <h1>信息元宇宙</h1>
+        <p>内容推广工具</p>
+    </div>
+    
+    <div class="nav">
+        <a href="index.html">首页</a>
+        <a href="architecture.html">平台架构</a>
+        <a href="roles.html">用户角色</a>
+        <a href="content.html">内容创作</a>
+        <a href="economy.html">信息币经济</a>
+        <a href="governance.html">DAO治理</a>
+        <a href="ai-governance.html">AI治理</a>
+        <a href="applications.html">应用市场</a>
+    </div>
+    
+    <div class="container">
+        <div class="content">
+            <h2>内容推广工具</h2>
+            <p>通过智能推广工具，让您的优质内容触达更多目标受众。</p>
+            
+            <div class="promotion-options">
+                <h3>推广方案选择</h3>
+                <div class="option-cards">
+                    <div class="option-card">
+                        <h4>基础推广</h4>
+                        <p>面向平台活跃用户的基础展示</p>
+                        <ul>
+                            <li>智能匹配推荐</li>
+                            <li>基础数据分析</li>
+                            <li>24小时展示</li>
+                        </ul>
+                        <div class="cost">10 信息币/天</div>
+                        <button onclick="selectPlan('basic')">选择方案</button>
+                    </div>
+                    <div class="option-card">
+                        <h4>进阶推广</h4>
+                        <p>定向用户群体的精准投放</p>
+                        <ul>
+                            <li>兴趣标签定向</li>
+                            <li>地域精准投放</li>
+                            <li>高级数据分析</li>
+                        </ul>
+                        <div class="cost">30 信息币/天</div>
+                        <button onclick="selectPlan('advanced')">选择方案</button>
+                    </div>
+                    <div class="option-card">
+                        <h4>专业推广</h4>
+                        <p>全方位多维度的推广策略</p>
+                        <ul>
+                            <li>AI优化投放</li>
+                            <li>跨平台分发</li>
+                            <li>专业效果优化</li>
+                        </ul>
+                        <div class="cost">100 信息币/天</div>
+                        <button onclick="selectPlan('pro')">选择方案</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="promotion-calculator">
+                <h3>推广成本计算器</h3>
+                <div class="calculator-container">
+                    <div class="input-group">
+                        <label for="budget">每日预算（信息币）：</label>
+                        <input type="range" id="budget" min="10" max="1000" value="100" oninput="updateCalculator()">
+                        <span id="budgetValue">100</span>
+                    </div>
+                    <div class="input-group">
+                        <label for="duration">推广天数：</label>
+                        <input type="range" id="duration" min="1" max="30" value="7" oninput="updateCalculator()">
+                        <span id="durationValue">7</span>
+                    </div>
+                    <div class="input-group">
+                        <label for="targetAudience">目标受众范围：</label>
+                        <select id="targetAudience" onchange="updateCalculator()">
+                            <option value="all">全部用户</option>
+                            <option value="interest">兴趣定向</option>
+                            <option value="region">地域定向</option>
+                            <option value="custom">自定义组合</option>
+                        </select>
+                    </div>
+                    <div class="calculator-result">
+                        <h4>预计效果</h4>
+                        <p>总投入：<span id="totalCost">700</span> 信息币</p>
+                        <p>预计展示：<span id="impressions">35000</span> 次</p>
+                        <p>预计互动：<span id="interactions">1750</span> 次</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="audience-targeting">
+                <h3>目标受众选择</h3>
+                <div class="targeting-options">
+                    <div class="targeting-group">
+                        <h4>兴趣标签</h4>
+                        <div class="tag-cloud">
+                            <span class="tag" onclick="toggleTag(this)">技术</span>
+                            <span class="tag" onclick="toggleTag(this)">艺术</span>
+                            <span class="tag" onclick="toggleTag(this)">教育</span>
+                            <span class="tag" onclick="toggleTag(this)">金融</span>
+                            <span class="tag" onclick="toggleTag(this)">健康</span>
+                            <span class="tag" onclick="toggleTag(this)">娱乐</span>
+                            <span class="tag" onclick="toggleTag(this)">游戏</span>
+                            <span class="tag" onclick="toggleTag(this)">体育</span>
+                        </div>
+                    </div>
+                    <div class="targeting-group">
+                        <h4>活跃度</h4>
+                        <select id="activity">
+                            <option value="high">高度活跃</option>
+                            <option value="medium">中度活跃</option>
+                            <option value="low">低度活跃</option>
+                        </select>
+                    </div>
+                    <div class="targeting-group">
+                        <h4>用户角色</h4>
+                        <select id="userRole">
+                            <option value="all">全部用户</option>
+                            <option value="creator">内容创作者</option>
+                            <option value="curator">内容策展人</option>
+                            <option value="consumer">内容消费者</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="effect-preview">
+                <h3>推广效果预览</h3>
+                <div class="preview-chart">
+                    <svg id="effectChart" width="600" height="300"></svg>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>信息元宇宙演示 © 2025</p>
+    </div>
+
+    <script>
+        // 选择推广方案
+        function selectPlan(plan) {
+            const plans = {
+                basic: { name: '基础推广', cost: 10 },
+                advanced: { name: '进阶推广', cost: 30 },
+                pro: { name: '专业推广', cost: 100 }
+            };
+            alert(`已选择${plans[plan].name}方案，每日成本${plans[plan].cost}信息币`);
+        }
+
+        // 更新计算器
+        function updateCalculator() {
+            const budget = document.getElementById('budget').value;
+            const duration = document.getElementById('duration').value;
+            const audience = document.getElementById('targetAudience').value;
+
+            document.getElementById('budgetValue').textContent = budget;
+            document.getElementById('durationValue').textContent = duration;
+
+            const totalCost = budget * duration;
+            const impressions = totalCost * 50; // 假设每个信息币可获得50次展示
+            const interactions = Math.floor(impressions * 0.05); // 假设5%的互动率
+
+            document.getElementById('totalCost').textContent = totalCost;
+            document.getElementById('impressions').textContent = impressions;
+            document.getElementById('interactions').textContent = interactions;
+
+            drawEffectChart(budget, duration);
+        }
+
+        // 切换标签选中状态
+        function toggleTag(element) {
+            element.classList.toggle('selected');
+        }
+
+        // 绘制效果预览图表
+        function drawEffectChart(budget, duration) {
+            const svg = document.getElementById('effectChart');
+            const width = 600;
+            const height = 300;
+            const margin = {top: 20, right: 20, bottom: 30, left: 40};
+            const chartWidth = width - margin.left - margin.right;
+            const chartHeight = height - margin.top - margin.bottom;
+
+            // 清空SVG
+            svg.innerHTML = '';
+
+            // 生成数据
+            const data = [];
+            for (let i = 0; i < duration; i++) {
+                data.push({
+                    day: i + 1,
+                    impressions: budget * 50 * (1 + Math.random() * 0.2),
+                    interactions: budget * 2.5 * (1 + Math.random() * 0.2)
+                });
+            }
+
+            // 计算比例
+            const maxImpressions = Math.max(...data.map(d => d.impressions));
+            const xStep = chartWidth / (duration - 1);
+
+            // 绘制展示量曲线
+            let path = `M ${margin.left} ${height - margin.bottom - (data[0].impressions / maxImpressions * chartHeight)}`;
+            data.forEach((d, i) => {
+                const x = margin.left + i * xStep;
+                const y = height - margin.bottom - (d.impressions / maxImpressions * chartHeight);
+                path += ` L ${x} ${y}`;
+            });
+
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            line.setAttribute('d', path);
+            line.setAttribute('stroke', '#4a90e2');
+            line.setAttribute('fill', 'none');
+            line.setAttribute('stroke-width', '2');
+            svg.appendChild(line);
+
+            // 添加坐标轴
+            const xAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            xAxis.setAttribute('x1', margin.left);
+            xAxis.setAttribute('y1', height - margin.bottom);
+            xAxis.setAttribute('x2', width - margin.right);
+            xAxis.setAttribute('y2', height - margin.bottom);
+            xAxis.setAttribute('stroke', '#000');
+            svg.appendChild(xAxis);
+
+            const yAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            yAxis.setAttribute('x1', margin.left);
+            yAxis.setAttribute('y1', margin.top);
+            yAxis.setAttribute('x2', margin.left);
+            yAxis.setAttribute('y2', height - margin.bottom);
+            yAxis.setAttribute('stroke', '#000');
+            svg.appendChild(yAxis);
+        }
+
+        // 页面加载时初始化
+        window.addEventListener('load', () => {
+            updateCalculator();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>信息元宇宙 - 开发者集成中心</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <h1>信息元宇宙</h1>
+        <p>开发者集成中心</p>
+    </div>
+    
+    <div class="nav">
+        <a href="index.html">首页</a>
+        <a href="architecture.html">平台架构</a>
+        <a href="roles.html">用户角色</a>
+        <a href="content.html">内容创作</a>
+        <a href="economy.html">信息币经济</a>
+        <a href="governance.html">DAO治理</a>
+        <a href="ai-governance.html">AI治理</a>
+        <a href="applications.html">应用市场</a>
+    </div>
+    
+    <div class="container">
+        <div class="content">
+            <h2>开发者集成中心</h2>
+            <p>欢迎加入信息元宇宙开发者生态，这里提供了所有您需要的开发资源和工具。</p>
+            
+            <div class="api-section">
+                <h3>API文档</h3>
+                <div class="api-endpoints">
+                    <div class="endpoint">
+                        <h4>内容服务 API</h4>
+                        <div class="endpoint-details">
+                            <div class="method get">GET</div>
+                            <code>/api/v1/content/{id}</code>
+                            <p>获取指定ID的内容详情</p>
+                        </div>
+                        <div class="parameters">
+                            <h5>参数</h5>
+                            <table>
+                                <tr>
+                                    <th>名称</th>
+                                    <th>类型</th>
+                                    <th>描述</th>
+                                </tr>
+                                <tr>
+                                    <td>id</td>
+                                    <td>string</td>
+                                    <td>内容的唯一标识符</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="endpoint">
+                        <h4>用户服务 API</h4>
+                        <div class="endpoint-details">
+                            <div class="method post">POST</div>
+                            <code>/api/v1/users/authenticate</code>
+                            <p>用户身份验证</p>
+                        </div>
+                        <div class="parameters">
+                            <h5>请求体</h5>
+                            <pre>{
+  "username": "string",
+  "password": "string"
+}</pre>
+                        </div>
+                    </div>
+                    <div class="endpoint">
+                        <h4>经济系统 API</h4>
+                        <div class="endpoint-details">
+                            <div class="method post">POST</div>
+                            <code>/api/v1/transactions</code>
+                            <p>创建信息币交易</p>
+                        </div>
+                        <div class="parameters">
+                            <h5>请求体</h5>
+                            <pre>{
+  "recipient": "string",
+  "amount": "number",
+  "description": "string"
+}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="submission-flow">
+                <h3>应用提交流程</h3>
+                <div class="flow-steps">
+                    <div class="flow-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>准备应用</h4>
+                            <ul>
+                                <li>完成应用开发</li>
+                                <li>准备应用描述文档</li>
+                                <li>准备演示视频</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>提交审核</h4>
+                            <ul>
+                                <li>填写应用信息</li>
+                                <li>上传应用包</li>
+                                <li>设置定价模型</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>审核过程</h4>
+                            <ul>
+                                <li>技术审核</li>
+                                <li>内容审核</li>
+                                <li>安全检查</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>发布上线</h4>
+                            <ul>
+                                <li>应用上架</li>
+                                <li>运营数据统计</li>
+                                <li>用户反馈收集</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="revenue-calculator">
+                <h3>收入模型计算器</h3>
+                <div class="calculator-container">
+                    <div class="input-section">
+                        <div class="input-group">
+                            <label for="userCount">月活用户数：</label>
+                            <input type="number" id="userCount" min="0" value="1000">
+                        </div>
+                        <div class="input-group">
+                            <label for="avgRevenue">人均收入（信息币）：</label>
+                            <input type="number" id="avgRevenue" min="0" value="10">
+                        </div>
+                        <div class="input-group">
+                            <label for="platformFee">平台分成比例：</label>
+                            <input type="range" id="platformFee" min="10" max="30" value="20">
+                            <span id="feeValue">20%</span>
+                        </div>
+                        <button onclick="calculateRevenue()">计算收入</button>
+                    </div>
+                    <div class="result-section">
+                        <div class="result-item">
+                            <h4>月度总收入</h4>
+                            <p><span id="totalRevenue">10000</span> 信息币</p>
+                        </div>
+                        <div class="result-item">
+                            <h4>开发者收入</h4>
+                            <p><span id="developerRevenue">8000</span> 信息币</p>
+                        </div>
+                        <div class="result-item">
+                            <h4>平台分成</h4>
+                            <p><span id="platformRevenue">2000</span> 信息币</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="performance-monitor">
+                <h3>性能监控工具</h3>
+                <div class="monitor-dashboard">
+                    <div class="metric-card">
+                        <h4>API响应时间</h4>
+                        <div class="chart-container">
+                            <svg id="responseTimeChart" width="300" height="150"></svg>
+                        </div>
+                        <p class="metric-value">平均 <span id="avgResponseTime">120</span> ms</p>
+                    </div>
+                    <div class="metric-card">
+                        <h4>并发请求数</h4>
+                        <div class="chart-container">
+                            <svg id="concurrentRequestsChart" width="300" height="150"></svg>
+                        </div>
+                        <p class="metric-value">当前 <span id="currentRequests">45</span> 请求/秒</p>
+                    </div>
+                    <div class="metric-card">
+                        <h4>错误率</h4>
+                        <div class="chart-container">
+                            <svg id="errorRateChart" width="300" height="150"></svg>
+                        </div>
+                        <p class="metric-value"><span id="errorRate">0.5</span>%</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>信息元宇宙演示 © 2025</p>
+    </div>
+
+    <script>
+        // 收入计算功能
+        function calculateRevenue() {
+            const userCount = parseInt(document.getElementById('userCount').value);
+            const avgRevenue = parseFloat(document.getElementById('avgRevenue').value);
+            const platformFee = parseInt(document.getElementById('platformFee').value);
+            
+            const totalRevenue = userCount * avgRevenue;
+            const platformRevenue = totalRevenue * (platformFee / 100);
+            const developerRevenue = totalRevenue - platformRevenue;
+            
+            document.getElementById('totalRevenue').textContent = totalRevenue;
+            document.getElementById('platformRevenue').textContent = platformRevenue;
+            document.getElementById('developerRevenue').textContent = developerRevenue;
+        }
+
+        // 平台分成比例滑块更新
+        document.getElementById('platformFee').addEventListener('input', function(e) {
+            document.getElementById('feeValue').textContent = e.target.value + '%';
+            calculateRevenue();
+        });
+
+        // 绘制性能监控图表
+        function drawPerformanceCharts() {
+            // 响应时间图表
+            drawLineChart('responseTimeChart', generateRandomData(10));
+            // 并发请求图表
+            drawLineChart('concurrentRequestsChart', generateRandomData(10));
+            // 错误率图表
+            drawLineChart('errorRateChart', generateRandomData(10, 0, 2));
+        }
+
+        // 生成随机数据
+        function generateRandomData(points, min = 0, max = 100) {
+            const data = [];
+            for (let i = 0; i < points; i++) {
+                data.push(min + Math.random() * (max - min));
+            }
+            return data;
+        }
+
+        // 绘制折线图
+        function drawLineChart(svgId, data) {
+            const svg = document.getElementById(svgId);
+            const width = 300;
+            const height = 150;
+            const padding = 20;
+            const chartWidth = width - 2 * padding;
+            const chartHeight = height - 2 * padding;
+
+            // 清空SVG
+            svg.innerHTML = '';
+
+            // 计算比例
+            const xStep = chartWidth / (data.length - 1);
+            const yMax = Math.max(...data);
+            const yScale = chartHeight / yMax;
+
+            // 创建路径
+            let path = `M ${padding} ${height - padding - data[0] * yScale}`;
+            data.forEach((value, index) => {
+                if (index > 0) {
+                    path += ` L ${padding + index * xStep} ${height - padding - value * yScale}`;
+                }
+            });
+
+            // 绘制折线
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            line.setAttribute('d', path);
+            line.setAttribute('stroke', '#4a90e2');
+            line.setAttribute('fill', 'none');
+            line.setAttribute('stroke-width', '2');
+            svg.appendChild(line);
+
+            // 绘制坐标轴
+            const xAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            xAxis.setAttribute('x1', padding);
+            xAxis.setAttribute('y1', height - padding);
+            xAxis.setAttribute('x2', width - padding);
+            xAxis.setAttribute('y2', height - padding);
+            xAxis.setAttribute('stroke', '#999');
+            svg.appendChild(xAxis);
+
+            const yAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            yAxis.setAttribute('x1', padding);
+            yAxis.setAttribute('y1', padding);
+            yAxis.setAttribute('x2', padding);
+            yAxis.setAttribute('y2', height - padding);
+            yAxis.setAttribute('stroke', '#999');
+            svg.appendChild(yAxis);
+        }
+
+        // 页面加载时初始化
+        window.addEventListener('load', () => {
+            calculateRevenue();
+            drawPerformanceCharts();
+            // 定期更新性能图表
+            setInterval(drawPerformanceCharts, 5000);
+        });
+    </script>
+</body>
+</html>

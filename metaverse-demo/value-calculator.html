@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>信息元宇宙 - 价值计算模拟器</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <h1>信息元宇宙</h1>
+        <p>价值计算模拟器</p>
+    </div>
+    
+    <div class="nav">
+        <a href="index.html">首页</a>
+        <a href="architecture.html">平台架构</a>
+        <a href="roles.html">用户角色</a>
+        <a href="content.html">内容创作</a>
+        <a href="economy.html">信息币经济</a>
+        <a href="governance.html">DAO治理</a>
+        <a href="ai-governance.html">AI治理</a>
+        <a href="applications.html">应用市场</a>
+    </div>
+    
+    <div class="container">
+        <div class="content">
+            <h2>价值计算模拟器</h2>
+            <p>通过本模拟器，您可以了解不同类型的贡献如何转化为信息币价值。</p>
+            
+            <div class="calculator-section">
+                <h3>时间-价值计算器</h3>
+                <div class="calculator">
+                    <div class="input-group">
+                        <label for="readTime">阅读时间（分钟）：</label>
+                        <input type="number" id="readTime" min="0" value="0">
+                    </div>
+                    <div class="input-group">
+                        <label for="qualityMultiplier">质量乘数：</label>
+                        <input type="range" id="qualityMultiplier" min="0.1" max="2" step="0.1" value="1">
+                        <span id="multiplierValue">1.0</span>
+                    </div>
+                    <button onclick="calculateValue()">计算价值</button>
+                    <div class="result">
+                        <p>预计获得信息币：<span id="coinResult">0</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comparison-section">
+                <h3>价值创造活动对比</h3>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>活动类型</th>
+                            <th>基础价值（信息币/小时）</th>
+                            <th>质量乘数范围</th>
+                            <th>最高潜在收益</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>原创内容创作</td>
+                            <td>10</td>
+                            <td>1.0 - 2.0</td>
+                            <td>20</td>
+                        </tr>
+                        <tr>
+                            <td>内容审核</td>
+                            <td>5</td>
+                            <td>1.0 - 1.5</td>
+                            <td>7.5</td>
+                        </tr>
+                        <tr>
+                            <td>知识分享</td>
+                            <td>8</td>
+                            <td>1.0 - 1.8</td>
+                            <td>14.4</td>
+                        </tr>
+                        <tr>
+                            <td>社区贡献</td>
+                            <td>6</td>
+                            <td>1.0 - 1.6</td>
+                            <td>9.6</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="chart-section">
+                <h3>收益对比图表</h3>
+                <div class="chart-container">
+                    <svg id="barChart" width="600" height="300"></svg>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>信息元宇宙演示 © 2025</p>
+    </div>
+
+    <script>
+        // 价值计算功能
+        function calculateValue() {
+            const readTime = parseFloat(document.getElementById('readTime').value);
+            const multiplier = parseFloat(document.getElementById('qualityMultiplier').value);
+            const coinsPerMinute = 0.2; // 基础价值率
+            const coins = readTime * coinsPerMinute * multiplier;
+            document.getElementById('coinResult').textContent = coins.toFixed(2);
+        }
+
+        // 质量乘数滑块更新
+        document.getElementById('qualityMultiplier').addEventListener('input', function(e) {
+            document.getElementById('multiplierValue').textContent = parseFloat(e.target.value).toFixed(1);
+        });
+
+        // 简单柱状图
+        const data = [
+            {activity: '原创内容', value: 20},
+            {activity: '内容审核', value: 7.5},
+            {activity: '知识分享', value: 14.4},
+            {activity: '社区贡献', value: 9.6}
+        ];
+
+        function drawBarChart() {
+            const svg = document.getElementById('barChart');
+            const width = 600;
+            const height = 300;
+            const margin = {top: 20, right: 20, bottom: 30, left: 40};
+            const chartWidth = width - margin.left - margin.right;
+            const chartHeight = height - margin.top - margin.bottom;
+
+            // 清空SVG
+            svg.innerHTML = '';
+
+            // 计算比例
+            const maxValue = Math.max(...data.map(d => d.value));
+            const barWidth = chartWidth / data.length - 20;
+
+            // 绘制柱状图
+            data.forEach((d, i) => {
+                const barHeight = (d.value / maxValue) * chartHeight;
+                const x = margin.left + i * (chartWidth / data.length);
+                const y = height - margin.bottom - barHeight;
+
+                // 创建柱子
+                const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                rect.setAttribute('x', x);
+                rect.setAttribute('y', y);
+                rect.setAttribute('width', barWidth);
+                rect.setAttribute('height', barHeight);
+                rect.setAttribute('fill', '#4a90e2');
+                svg.appendChild(rect);
+
+                // 添加数值标签
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', x + barWidth / 2);
+                text.setAttribute('y', y - 5);
+                text.setAttribute('text-anchor', 'middle');
+                text.textContent = d.value;
+                svg.appendChild(text);
+
+                // 添加活动名称
+                const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                label.setAttribute('x', x + barWidth / 2);
+                label.setAttribute('y', height - margin.bottom + 20);
+                label.setAttribute('text-anchor', 'middle');
+                label.textContent = d.activity;
+                svg.appendChild(label);
+            });
+        }
+
+        // 页面加载时绘制图表
+        window.addEventListener('load', drawBarChart);
+    </script>
+</body>
+</html>
