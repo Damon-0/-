@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>信息元宇宙 - 用户仪表盘</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <h1>信息元宇宙</h1>
+        <p>去中心化信息价值网络</p>
+    </div>
+    
+    <div class="nav">
+        <a href="index.html">首页</a>
+        <a href="user-dashboard.html" class="active">用户仪表盘</a>
+        <a href="architecture.html">平台架构</a>
+        <a href="roles.html">用户角色</a>
+        <a href="content.html">内容创作</a>
+        <a href="content-sharing.html">内容传播与分享</a>
+        <a href="data-privacy.html">数据共享与隐私</a>
+        <a href="economy.html">信息币经济</a>
+        <a href="governance.html">DAO治理</a>
+        <a href="ai-governance.html">AI治理</a>
+        <a href="applications.html">应用市场</a>
+        <a href="platform-analytics.html">平台分析</a>
+    </div>
+    
+    <div class="container">
+        <div class="content">
+            <h2>用户仪表盘</h2>
+            <p>欢迎来到您的用户仪表盘！在这里您可以查看您的个人信息、信息币钱包、贡献统计、成就、个性化推荐、通知以及核心功能快捷入口。</p>
+            
+            <div class="dashboard-section">
+                <h3>个人信息</h3>
+                <p><strong>用户名:</strong> MetaverseUser</p>
+                <p><strong>UID:</strong> 123456789</p>
+                <p><strong>注册时间:</strong> 2024-01-01</p>
+            </div>
+
+            <div class="dashboard-section">
+                <h3>信息币钱包</h3>
+                <p><strong>当前余额:</strong> 1234.56 信息币</p>
+                <p><strong>今日收益:</strong> +15.20 信息币</p>
+                <button class="btn">充值</button>
+                <button class="btn btn-secondary">提现</button>
+            </div>
+
+            <div class="dashboard-section">
+                <h3>贡献统计</h3>
+                <p><strong>内容创作:</strong> 10 篇</p>
+                <p><strong>内容分享:</strong> 50 次</p>
+                <p><strong>数据贡献:</strong> 2 GB</p>
+                <p><strong>资源提供:</strong> 100 小时</p>
+            </div>
+
+            <div class="dashboard-section">
+                <h3>我的成就</h3>
+                <ul>
+                    <li><span class="badge">内容大师</span> - 发布超过100篇高质量内容</li>
+                    <li><span class="badge">传播先锋</span> - 分享内容获得超过1000次浏览</li>
+                    <li><span class="badge">数据守护者</span> - 持续贡献数据超过1年</li>
+                </ul>
+            </div>
+
+            <div class="dashboard-section">
+                <h3>个性化推荐</h3>
+                <div class="recommendation-card">
+                    <h4>推荐内容: 信息元宇宙经济白皮书</h4>
+                    <p>深入了解信息元宇宙的经济运行机制和信息币的价值体系。</p>
+                    <a href="#" class="btn">阅读</a>
+                </div>
+                <div class="recommendation-card">
+                    <h4>推荐应用: 去中心化社交应用</h4>
+                    <p>与全球用户安全、自由地交流，体验全新的社交方式。</p>
+                    <a href="#" class="btn">探索</a>
+                </div>
+            </div>
+
+            <div class="dashboard-section">
+                <h3>通知中心</h3>
+                <ul>
+                    <li>您的信息币钱包已收到 5.00 信息币奖励。</li>
+                    <li>您发布的内容“信息元宇宙的未来展望”已获得 100 个赞。</li>
+                    <li>新的治理提案已发布，请前往DAO治理页面参与投票。</li>
+                </ul>
+            </div>
+
+            <div class="dashboard-section">
+                <h3>核心功能快捷入口</h3>
+                <div class="quick-links">
+                    <a href="content.html" class="btn">发布新内容</a>
+                    <a href="economy.html" class="btn">查看交易记录</a>
+                    <a href="governance.html" class="btn">参与治理</a>
+                    <a href="applications.html" class="btn">应用市场</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>信息元宇宙演示 © 2025</p>
+    </div>
+
+    <style>
+        .dashboard-section {
+            background-color: #f9f9f9;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+        .dashboard-section h3 {
+            color: #4a90e2;
+            margin-top: 0;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        .dashboard-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        .dashboard-section ul li {
+            margin-bottom: 8px;
+        }
+        .badge {
+            background-color: #50c878;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            margin-right: 5px;
+        }
+        .recommendation-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .recommendation-card h4 {
+            color: #f5a623;
+            margin-top: 0;
+        }
+        .quick-links .btn {
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</body>
+</html>
