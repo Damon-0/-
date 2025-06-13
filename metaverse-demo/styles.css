@@ -51,6 +51,90 @@ body {
     box-shadow: 0 2px 8px var(--shadow-light); /* 调整阴影效果 */
 }
 
+/* 导航项基础样式 */
+.nav-item {
+    position: relative; /* 为下拉菜单定位 */
+    display: inline-block; /* 使项目并排显示 */
+}
+
+/* 下拉按钮（一级菜单项） */
+.dropbtn {
+    /* 继承 .nav a 的部分样式，或单独设置 */
+    color: var(--dark-gray);
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: var(--border-radius-sm);
+    transition: color 0.3s, background-color 0.3s;
+    font-weight: 500;
+    margin: 0 10px;
+    cursor: pointer;
+    background-color: transparent; /* 确保背景透明 */
+    border: none; /* 移除边框 */
+    display: inline-block; /* 确保正确显示 */
+}
+
+.nav-item:hover .dropbtn,
+.nav-item .dropbtn.active {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+/* 下拉内容容器 */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--white);
+    min-width: 220px; /* 调整下拉菜单宽度 */
+    box-shadow: 0px 8px 16px 0px var(--shadow-dark);
+    z-index: 1;
+    border-radius: var(--border-radius-md);
+    padding: 10px 0; /* 上下内边距 */
+    margin-top: 0; /* 确保紧贴父元素 */
+    left: 50%; /* 水平居中 */
+    transform: translateX(-50%); /* 水平居中 */
+}
+
+/* 下拉菜单中的链接 */
+.dropdown-content a.dropdown-item {
+    color: var(--dark-gray);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.2s, color 0.2s;
+    font-weight: normal; /* 恢复正常字重 */
+    margin: 0; /* 移除外边距 */
+    border-radius: 0; /* 移除圆角 */
+}
+
+.dropdown-content a.dropdown-item:hover {
+    background-color: var(--light-gray);
+    color: var(--primary-color);
+}
+
+/* 显示下拉菜单 */
+.nav-item.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* 二级菜单分组 */
+.submenu-group {
+    padding: 5px 0;
+}
+
+.submenu-group:not(:last-child) {
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 5px;
+}
+
+.submenu-header {
+    display: block;
+    padding: 10px 16px;
+    font-weight: bold;
+    color: var(--secondary-color);
+    font-size: 0.9em;
+    text-transform: uppercase;
+}
+
 .nav a {
     color: var(--dark-gray); /* 导航链接颜色改为深灰色 */
     text-decoration: none;
