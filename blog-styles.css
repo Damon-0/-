@@ -1,89 +1,156 @@
-/* 全局样式 */
-* {
+/* 基本样式 */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-body {
-    line-height: 1.6;
+    background: #f4f4f4;
     color: #333;
-    background-color: #f9f9f9;
 }
 
 .container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
+    width: 85%;
+    max-width: 1100px;
+    margin: auto;
+    overflow: hidden;
     padding: 0 20px;
 }
 
 /* 头部样式 */
 header {
-    background-color: #333;
-    color: white;
+    background: #fff;
+    color: #333;
     padding: 1rem 0;
-    margin-bottom: 2rem;
+    border-bottom: 1px solid #e7e7e7;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
-nav {
-    margin-top: 1rem;
+header h1 {
+    float: left;
+    margin: 0;
+    font-size: 1.8rem;
 }
 
-nav a {
-    color: white;
+header nav {
+    float: right;
+}
+
+header nav a {
+    color: #555;
     text-decoration: none;
-    margin-right: 1.5rem;
-    transition: color 0.3s;
+    padding: 5px 15px;
+    margin-left: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
 }
 
-nav a:hover {
-    color: #4a90e2;
+header nav a:hover {
+    background-color: #f0f0f0;
+    color: #000;
 }
 
-/* 主要内容样式 */
+/* 英雄区域 */
 .hero {
+    background: #333;
+    color: #fff;
+    padding: 4rem 0;
     text-align: center;
-    padding: 2rem 0;
-    margin-bottom: 3rem;
 }
 
 .hero h2 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
+    font-size: 2.8rem;
+    margin-bottom: 0.5rem;
 }
 
-.latest-posts, .projects {
-    margin-bottom: 3rem;
+.hero p {
+    font-size: 1.2rem;
 }
 
+/* 内容区域 */
+main {
+    padding: 20px 0;
+}
+
+section {
+    margin-bottom: 40px;
+}
+
+section h3 {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #222;
+}
+
+/* 文章和项目列表 */
 .post-list, .project-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
 }
 
 .post-card, .project-card {
-    background: white;
-    padding: 1.5rem;
+    background: #fff;
+    border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 25px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.post-card:hover, .project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+
+.post-card h4, .project-card h4 {
+    font-size: 1.4rem;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.post-card p, .project-card p {
+    margin-bottom: 15px;
 }
 
 .read-more, .view-project {
     display: inline-block;
-    margin-top: 1rem;
-    color: #4a90e2;
+    background: #333;
+    color: #fff;
+    padding: 10px 15px;
     text-decoration: none;
-    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s;
 }
 
-/* 页脚样式 */
+.read-more:hover, .view-project:hover {
+    background: #555;
+}
+
+/* 页脚 */
 footer {
-    background-color: #333;
-    color: white;
+    background: #333;
+    color: #fff;
     text-align: center;
-    padding: 1rem 0;
-    margin-top: 3rem;
+    padding: 1.5rem 0;
+    margin-top: 40px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    header h1, header nav {
+        float: none;
+        text-align: center;
+    }
+
+    header nav a {
+        display: block;
+        margin: 10px 0;
+    }
+
+    .hero h2 {
+        font-size: 2rem;
+    }
 }
