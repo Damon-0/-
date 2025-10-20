@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iMetaSpace - 信息基因哲学</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #0a0a0a;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+        .glass-card {
+            background: rgba(17, 24, 39, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+        }
+        .accent-text {
+            color: #38bdf8;
+        }
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        .flow-line::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 100%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 4rem;
+            background: rgba(56, 189, 248, 0.3);
+        }
+        /* Scroll Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div id="particles-js"></div>
+    <div class="content-wrapper">
+        <!-- Hero Section -->
+        <header class="min-h-screen flex flex-col items-center justify-center text-center p-6 relative">
+            <h1 class="text-4xl md:text-6xl font-bold tracking-tight leading-tight reveal">
+                宇宙不是一台耗尽能量的机器<br>
+                <span class="accent-text">而是一部不断自调节的频率共振系统</span>
+            </h1>
+            <p class="mt-8 text-lg md:text-xl text-slate-400 max-w-3xl reveal" style="transition-delay: 200ms;">
+                信息基因哲学，旨在揭示信息的秩序，用“比特-频率-基因”的三位一体框架，重新理解宇宙、生命与文明的演化。
+            </p>
+            <div class="absolute bottom-12 animate-bounce">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </div>
+        </header>
+
+        <main class="container mx-auto px-6 py-20">
+            <!-- Section 1: The Problem & The Vision -->
+            <section class="mb-32 text-center max-w-4xl mx-auto">
+                <h2 class="section-title reveal">为何提出信息基因哲学？</h2>
+                <p class="text-xl leading-relaxed text-slate-300 reveal">
+                    传统科学解释“物质运动”，却未解释“秩序的诞生”。如果宇宙注定热寂，为何生命与文明能够涌现？我们认为，正如物质有惯性，<strong class="accent-text">秩序也有惯性</strong>。能量的扩散在信息层面形成了“低熵共振结构”，宇宙并非走向终结，而是信息在持续自组织。
+                </p>
+            </section>
+
+            <!-- Section 2: Core Framework -->
+            <section class="mb-32">
+                <h2 class="section-title reveal">三位一体核心框架</h2>
+                <div class="grid md:grid-cols-3 gap-8 text-center max-w-5xl mx-auto">
+                    <!-- Bit -->
+                    <div class="glass-card p-8 reveal">
+                        <div class="flow-line relative mb-4">
+                            <h3 class="text-2xl font-bold accent-text">本体 · 比特 (Bit)</h3>
+                        </div>
+                        <p class="text-slate-400">万物的基石，信息的最小单位 (0/1)。能量、物质、时空皆为信息结构的表现态。</p>
+                    </div>
+                    <!-- Frequency -->
+                    <div class="glass-card p-8 reveal" style="transition-delay: 200ms;">
+                        <div class="flow-line relative mb-4">
+                            <h3 class="text-2xl font-bold accent-text">表现 · 频率 (Frequency)</h3>
+                        </div>
+                        <p class="text-slate-400">比特在时间维度上的周期性振荡。万物皆可被视为不同频率的组合与交响。</p>
+                    </div>
+                    <!-- Gene -->
+                    <div class="glass-card p-8 reveal" style="transition-delay: 400ms;">
+                        <div class="relative mb-4">
+                             <h3 class="text-2xl font-bold accent-text">功能 · 信息基因 (IG)</h3>
+                        </div>
+                        <p class="text-slate-400">具有<strong class="text-white">复制、变异、选择</strong>特征的稳定比特模式，是宇宙演化的基本单元。</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3: The Breakthroughs -->
+            <section class="mb-32">
+                <h2 class="section-title reveal">关键理论突破</h2>
+                <div class="space-y-8 max-w-4xl mx-auto">
+                    <div class="glass-card p-6 md:p-8 reveal">
+                        <h3 class="text-xl font-semibold accent-text mb-3">量子纠缠：从“超光速”到“低频相干”</h3>
+                        <p class="text-slate-300">所谓的“超光速”现象，并非信号传输，而是信息本体层“低频相干”在时空坐标系中的投影失真。它不违反光速，因为光速只约束高频能量的传播。</p>
+                    </div>
+                    <div class="glass-card p-6 md:p-8 reveal">
+                        <h3 class="text-xl font-semibold accent-text mb-3">引力本质：从“时空曲率”到“信息场弯曲”</h3>
+                        <p class="text-slate-300">引力是宇宙背景信息场的低频、大尺度相位弯曲。质量是信息集中的区域，其存在改变了周围信息的相位梯度，宏观表现即为时空弯曲。</p>
+                    </div>
+                    <div class="glass-card p-6 md:p-8 reveal">
+                        <h3 class="text-xl font-semibold accent-text mb-3">意识起源：从“难解问题”到“频率绑定”</h3>
+                        <p class="text-slate-300">意识是在大脑临界状态下（秩序度O≈0.6），不同神经元集群通过γ波（约40Hz）同步振荡而涌现的统一体验，是一种可测量、可分析的“频率绑定”现象。</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 4: Applications -->
+            <section class="mb-20">
+                <h2 class="section-title reveal">未来应用方向</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                    <div class="glass-card p-6 reveal">
+                        <h4 class="font-bold text-lg mb-2 accent-text">医学与神经科学</h4>
+                        <p class="text-sm text-slate-400">通过“疾病信息谱”预测病变，利用“信息共振”进行治疗，优化脑机接口。</p>
+                    </div>
+                    <div class="glass-card p-6 reveal">
+                        <h4 class="font-bold text-lg mb-2 accent-text">经济与社会系统</h4>
+                        <p class="text-sm text-slate-400">用“信息熵”衡量经济稳定度，预测市场周期，构建“去中心化共振社会”。</p>
+                    </div>
+                    <div class="glass-card p-6 reveal">
+                        <h4 class="font-bold text-lg mb-2 accent-text">人工智能</h4>
+                        <p class="text-sm text-slate-400">构建自组织的“信息基因网络架构”，探索“AI意识”的统一机制。</p>
+                    </div>
+                    <div class="glass-card p-6 reveal">
+                        <h4 class="font-bold text-lg mb-2 accent-text">生态与环境</h4>
+                        <p class="text-sm text-slate-400">以“生态频率”衡量系统健康，预测极端气候，构建“自组织型”智慧城市。</p>
+                    </div>
+                     <div class="glass-card p-6 reveal">
+                        <h4 class="font-bold text-lg mb-2 accent-text">哲学与伦理</h4>
+                        <p class="text-sm text-slate-400">用“共振而非竞争”重构价值体系，探索文明演化的新伦理。</p>
+                    </div>
+                     <div class="glass-card p-6 reveal">
+                        <h4 class="font-bold text-lg mb-2 accent-text">了解更多</h4>
+                        <p class="text-sm text-slate-400">深入探索完整的理论体系、可证伪预测与数学模型。</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 5: Full Theory -->
+            <section class="mb-32">
+                <h2 class="section-title reveal">理论全文</h2>
+                <div class="max-w-4xl mx-auto">
+                    <div class="glass-card p-6 md:p-8 reveal">
+                        <details>
+                            <summary class="text-xl font-semibold accent-text cursor-pointer">点击展开/折叠完整理论文档</summary>
+                            <pre id="theory-content" class="text-slate-300 mt-4" style="white-space: pre-wrap;"># 信息基因理论v3.0：一份开源的、可验证的万物理论
+
+**作者**：Damon-0
+
+**核心贡献**：scott.cgi, Claude AI
+
+**版本**：3.0 (2024-07-28)
+
+**开源协议**：CC BY 4.0
+
+---
+
+## 摘要
+
+信息基因理论（Info-Gene Theory）是一个试图统一物理、生物、神经、社会和文化演化的跨学科诠释框架。其核心思想是：**宇宙万物的基本构成单位是信息基因（Info-Gene），其本质是特定频率的比特模式，其演化遵循统一的“复制-变异-选择”算法。** 本理论提出，从量子涨落到人类文明，所有复杂现象的涌现和演化，都可以被理解为不同层级信息基因在“秩序度”（Order）和“频谱熵”（Spectrum Entropy）二维空间中的运动。
+
+---
+
+## 核心概念
+
+### 1. 信息基因（Info-Gene）
+
+**定义**：一个信息基因（IG）是一个具备以下五个核心属性的自包含比特集合：
+
+$$IG = \{ B, f, \Delta f, \mathcal{R}, \mathcal{M}, \mathcal{S} \}$$
+
+- **B (Bits)**：**比特序列**，构成信息内容的基础编码。
+- **f (Frequency)**：**主频率**，信息模式振荡或重复的核心频率。
+- **Δf (Bandwidth)**：**带宽**，频率的变化范围，决定了信息基因的变异潜力。
+- **R (Replication)**：**复制机制**，信息模式自我复制的方式（如晶体生长、DNA复制、模因传播）。
+- **M (Mutation)**：**变异机制**，比特序列或频率发生改变的方式（如量子隧穿、基因突变、文化创新）。
+- **S (Selection)**：**选择压力**，环境对不同信息基因的筛选机制（如自然选择、市场选择）。
+
+### 2. 秩序度（Order, O）
+
+**定义**：衡量一个系统偏离完全随机状态的程度。它通过系统的**频谱熵**（$S_{freq}$）来量化。
+
+$$O = 1 - \frac{S_{freq}}{S_{max}}$$
+
+- **$S_{freq}$**：系统的**频谱熵**，计算方式为 $S_{freq} = -\sum p_i \log p_i$，其中 $p_i$ 是信号在第 $i$ 个频率分量上的功率占比。
+- **$S_{max}$**：系统可能的最大频谱熵（对应于白噪声，即均匀频率分布）。
+
+| O值范围 | 状态 | 示例 |
+| :--- | :--- | :--- |
+| O ≈ 0 | 完全无序（白噪声） | 热噪声、气体分子 |
+| 0 < O < 0.5 | 随机但有模式 | 湍流、市场波动 |
+| O ≈ 0.6 | 临界复杂性 | 生命系统、大脑 |
+| 0.5 < O < 1 | 高度有序 | 晶体、激光 |
+| O ≈ 1 | 完全有序（单频） | 玻色-爱因斯坦凝聚 |
+
+### 3. 统一场方程（猜想）
+
+本理论猜想，所有层级的演化都可以被一个统一的场方程所描述，该方程描述了秩序度场（O-Field）在时空中的演化：
+
+$$\frac{\partial O}{\partial t} = D \nabla^2 O + \alpha O(1-O) - \beta O + \xi(x,t)$$
+
+- **$D \nabla^2 O$**：**扩散项**，秩序度在空间上的传播（如热传导、文化扩散）。
+- **$\alpha O(1-O)$**：**逻辑斯增长项**，信息基因的自我复制和饱和（S型曲线）。
+- **$\beta O$**：**衰减项**，系统的自然熵增（如遗忘、衰变）。
+- **$\xi(x,t)$**：**随机噪声项**，代表变异和外部环境的随机扰动。
+
+---
+
+## 第一章：理论框架——从比特到频率
+
+### 1.1 万物皆比特：信息本体论
+
+- **基本假设**：宇宙最底层的实在，既不是物质，也不是精神，而是**比特（Bit）**。
+- **物理对应**：普朗克尺度下的量子涨落，每个涨落可视为一个比特的翻转（0→1或1→0）。
+- **scott.cgi的洞察**：“基因的本质是一串排列组合的信息（结构与关系），而非特定分子。”
+
+### 1.2 频率是信息的物理载体
+
+- **核心论点**：静态的比特无法承载动态的信息。信息通过**频率（Frequency）**——即比特状态随时间变化的速率——来表达和传递。
+- **数学基础**：傅里叶变换证明，任何复杂信号都可以分解为一系列简单频率的正弦波之和。
+- **物理现实**：
+  - **光**：电磁场的振荡频率。
+  - **声音**：空气压强的振动频率。
+  - **质量**：根据德布罗意关系 $E=hf=mc^2$，质量本身可以被视为一种“静止频率”。
+
+### 1.3 演化的核心机制：频率共振与选择
+
+演化并非随机的，而是通过**频率共振**实现的**选择性**过程。
+
+#### 1.3.1 共振：信息传递的“握手协议”
+
+当两个系统的固有频率匹配或成谐波关系时，会发生共振，导致高效的能量和信息传递。
+
+| 共振类型 | 条件 | 示例 | 效果 |
+| :--- | :--- | :--- | :--- |
+| **线性共振** | $f_1 = f_2$ | 两个音叉 | 能量高效传递 |
+| **非线性共振** | $f_3 = n_1 f_1 + n_2 f_2$ | 激光倍频 | 频率转换 |
+| **随机共振** | 弱信号 + 适量噪声 | 神经元阈下检测 | 提升信噪比 |
+
+#### 1.3.2 跨层级共振案例
+
+- **生物-文化共振**：人脑γ波（~40 Hz）与语言音素识别频率的耦合。
+- **技术-社会共振**：社交媒体的传播频率（秒级）与社会舆论周期（天-周）的耦合。
+
+#### 1.3.3 频率选择：秩序度优化
+
+自然选择的本质是**选择那些能够使系统整体秩序度（O）最大化的频率组合**。这可以通过Price方程的频率版本来描述：
+
+$$\Delta \bar{O} = \text{Cov}(w_i, O_i) + \mathbb{E}(w_i \Delta O_i)$$
+
+- **$\text{Cov}(w_i, O_i)$**：**选择效应**。适应度（$w_i$）更高的信息基因（通常具有更高的秩序度$O_i$）被保留下来。
+- **$\mathbb{E}(w_i \Delta O_i)$**：**变异效应**。信息基因在代际传递中自身秩序度的变化。
+
+---
+
+## 第二章：五层演化架构——从比特到文明
+
+本理论提出一个五层级的演化架构，每一层都是下一层信息基因的载体和选择环境。
+
+| 层级 | 名称 | 信息基因 | 核心机制 | 涌现现象 | 频率范围 (Hz) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **L0** | **元信息** | 比特 | 量子涨落 | 宇宙、粒子 | > 10²³ |
+| **L1** | **物质信息** | 原子/分子 | 电磁力 | 结构、化学 | 10¹² - 10¹⁶ |
+| **L2** | **生命信息** | DNA/蛋白质 | 中心法则 | 生命、遗传 | 10⁻⁵ - 10¹⁴ |
+| **L3** | **神经信息** | 神经元回路 | 赫布学习 | 意识、心智 | 10⁻¹ - 10³ |
+| **L4** | **文化信息** | 模因/制度 | 社会学习 | 文明、技术 | < 10⁻³ |
+
+### 2.1 L0：元信息（比特层）
+
+- **宇宙起源**：一个完美的单频奇点（$f \approx 10^{43}$ Hz, O ≈ 1）。
+- **暴胀**：量子涨落引入微小的频率扰动，被指数级放大，形成宇宙微波背景辐射的温度涨落。
+- **粒子形成**：能量通过 $E=hf$ 量子化为不同的粒子，每种粒子对应一个特定的“锁定频率”。
+
+### 2.2 L1：物质信息（结构层）
+
+- **原子**：电子在特定能级上形成稳定的“频率轨道”，原子光谱是其频率指纹。
+- **分子**：原子通过共价键共振耦合，形成稳定的分子振动频率（如红外光谱所示）。
+- **晶体**：原子在空间中形成周期性排列，导致高度有序的晶格振动频率（声子）。
+
+### 2.3 L2：生命信息（基因层）
+
+- **DNA**：一个四层频率编码系统，从碱基对振动（~10¹³ Hz）到基因表达节律（~10⁻⁵ Hz）。
+- **蛋白质**：作为功能的执行者，通过与底物的**频率共振**实现高效的酶催化。
+- **神经系统**：不同脑波频段（δ, θ, α, β, γ）通过组合和同步，涌现出复杂的认知功能。**意识**被认为是γ波（~40 Hz）在全脑范围内的“频率绑定”现象。
+
+### 2.4 L3：神经信息（心智层）
+
+- **记忆**：赫布学习规则的频率版本——“以相同频率放电的神经元连接在一起”，通过长时程增强（LTP）将频率模式固化为突触权重。
+- **思维**：scott.cgi的洞察——“思维是数据在脑神经元网络结构中流动、组合的产物”，本质是频率流在不同脑区的处理和整合。
+- **自由意志**：大脑处于“自组织临界态”（O ≈ 0.6），对微小扰动高度敏感，表现为既非完全决定也非完全随机的“自由选择”。
+
+### 2.5 L4：文化信息（文明层）
+
+- **语言**：口语的声学频率和文字的空间频率，通过与人脑认知频率的共振实现高效编码和解码。
+- **技术**：技术史就是一部**频率控制精度**的提升史，从石器时代的无周期敲击到原子钟的10⁻¹⁸精度。
+- **制度**：法律、经济周期、社会规范等，都是用于同步大规模人群行为的**低频振荡器**。
+- **模因**：作为文化基因，其传播遵循与病毒类似的频率模型（SIR模型），并通过社交媒体等技术实现频率共振和放大。
+
+---
+
+## 第三章：跨学科验证——理论的实证支撑
+
+| 领域 | 核心验证点 | 证据/预测 |
+| :--- | :--- | :--- |
+| **物理学** | 量子纠缠的低频相干模型 | 纠缠的“超光速”是低频信息在时空中的投影失真。 |
+| | 黑洞信息悖论的全息频率编码 | 信息以引力波频率模式编码在黑洞视界上。 |
+| **生物学** | 进化的频率选择 | 加拉帕戈斯地雀喙形基因频率随食物硬度变化。 |
+| | 表观遗传的频率调控 | DNA甲基化作为“频率开关”，抑制或激活基因表达。 |
+| **神经科学** | 意识的频率绑定假说 | 麻醉剂通过破坏γ波同步来消除意识。 |
+| | 神经可塑性的频率重塑 | 出租车司机大脑海马体θ波功率增强。 |
+| **社会学** | 社交网络的频率传播 | Twitter热点话题传播遵循幂律分布，有特征频率周期。 |
+| | 制度变革的频率相变 | “阿拉伯之春”中，信息通过社交媒体频率放大，引发社会级联共振。 |
+| **数学** | 黎曼猜想的频率诠释 | 素数分布可能对应某个量子系统的能级频率谱。 |
+
+---
+
+## 第四章：应对批判——理论的自我完善
+
+本理论v3.0版本系统回应了来自各学科的批判，并通过提供**操作化定义**、**标准化测量协议**和**可证伪预测**来加强其科学性。
+
+| 批判 | 核心回应 |
+| :--- | :--- |
+| **“术语盗用”** | 承认载体不同，但强调信息编码的本质统一，并给出信息基因的操作化定义。 |
+| **“频率泛化”** | 区分“物理机制”与“数学定义”，任何时间序列都可进行傅里叶频谱分析。 |
+| **“量化伪科学”** | 提供测量频谱熵（S_freq）和秩序度（O）的标准化实验协议（SOP）。 |
+| **“不可证伪”** | 提出5个具体的、可在3年内验证的跨学科预测。 |
+| **“冗余性”** | 指出现有科学无法解释的现象（如中医经络、意识硬问题），并展示理论的应用价值。 |
+
+---
+
+## 第五章：哲学反思——理论的终极意义
+
+- **本体论**：存在 = 比特模式的稳定振荡。物质、意识、文化是不同频率域的比特表现形式，实现了**一元论**的统一。
+- **认识论**：知识 = 从高频数据中提取的低频稳定结构。真理是与实在频率共振的陈述。
+- **价值论**：**善 = 提升系统整体秩序度的行为**。美是秩序与复杂度的最优平衡（O ≈ 0.6）。
+
+---
+
+## 第六章：未来展望——理论的发展路线图
+
+- **短期（1-3年）**：建立经络频谱数据库、开发DAO健康度预警系统、为AI意识研究提供量化工具。
+- **中期（3-10年）**：深化理论，解决黑洞信息悖论、生命起源等重大问题。
+- **长期（10-50年）**：探索宇宙的终极算法，实现意识的频率工程，迈向更高等级的文明。
+
+---
+
+## 结语
+
+信息基因理论提供了一个雄心勃勃但可验证的框架，试图将我们对宇宙的理解统一在“信息”和“演化”这两个基本概念之下。它邀请来自所有学科的探索者，共同参与这场激动人心的智力冒险。
+
+**让我们一起，倾听宇宙的频率，直到触及存在本身的共鸣。** 🎵
+
+---
+
+**联系方式**：zd258642@gmail.com  
+**GitHub**：https://github.com/Damon-0/-
+**当前版本**：3.0（开放验证中）  
+</pre>
+                        </details>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <!-- Footer -->
+        <footer class="text-center p-10 border-t border-gray-800">
+            <p class="text-slate-500">&copy; 2025 iMetaSpace. All rights reserved.</p>
+            <p class="text-sm text-slate-600 mt-2">由Damon构想，由Gemini实现呈现</p>
+        </footer>
+    </div>
+
+    <!-- Particle.js and initialization script -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS('particles-js', {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#38bdf8"
+                },
+                "shape": {
+                    "type": "circle",
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": true,
+                },
+                "size": {
+                    "value": 2,
+                    "random": true,
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#38bdf8",
+                    "opacity": 0.2,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 1,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "grab"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                 "modes": {
+                    "grab": {
+                        "distance": 140,
+                        "line_linked": {
+                            "opacity": 0.5
+                        }
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+
+        // Scroll Reveal Animation
+        const revealElements = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        revealElements.forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
