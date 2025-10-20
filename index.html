@@ -20,25 +20,44 @@
         .dropdown-content {
             display: none;
             position: absolute;
-            background-color: #f9f9f9;
-            min-width: 160px;
+            background-color: #ffffff;
+            min-width: 180px;
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 9999;
-            top: 100%;
+            z-index: 99999;
+            top: calc(100% + 5px);
             left: 0;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            overflow: visible;
         }
 
         .dropdown-content a {
-            color: black;
+            color: #333;
             padding: 12px 16px;
             text-decoration: none;
             display: block;
+            transition: background-color 0.3s;
         }
 
-        .dropdown-content a:hover {background-color: #f1f1f1}
+        .dropdown-content a:hover {
+            background-color: #f5f5f5;
+        }
 
         .dropdown:hover .dropdown-content {
             display: block;
+        }
+
+        /* 确保导航栏不会裁剪下拉菜单 */
+        header {
+            overflow: visible !important;
+        }
+
+        header .container {
+            overflow: visible !important;
+        }
+
+        header nav {
+            overflow: visible !important;
         }
     </style>
 </head>
@@ -48,7 +67,13 @@
             <h1>信息基因哲学 (v3.0)</h1>
             <nav>
                 <a href="/">首页</a>
-                <a href="info_gene_theory.html">理论体系</a>
+                <div class="dropdown">
+                    <a href="#" class="dropbtn">理论体系</a>
+                    <div class="dropdown-content">
+                        <a href="info_gene_theory.html">中文版</a>
+                        <a href="info_gene_theory english.html">English Version</a>
+                    </div>
+                </div>
                 <div class="dropdown">
                     <a href="#" class="dropbtn">应用探索</a>
                     <div class="dropdown-content">

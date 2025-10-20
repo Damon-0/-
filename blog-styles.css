@@ -20,21 +20,31 @@ body {
 header {
     background: #fff;
     color: #333;
-    padding: 1rem 0;
+    height: 120px;
     border-bottom: 1px solid #e7e7e7;
     position: sticky;
     top: 0;
     z-index: 1000;
+    display: flex;
+    align-items: center;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    overflow: visible;
 }
 
 header h1 {
-    float: left;
     margin: 0;
     font-size: 1.8rem;
 }
 
 header nav {
-    float: right;
+    display: flex;
+    align-items: center;
 }
 
 header nav a {
