@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>信息基因论 · 新信息元宇宙</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #0f0f23, #1a1a2e, #16213e);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.5; }
+            50% { transform: translateX(-50%) scale(1.2); opacity: 0.8; }
+        }
+
+        .title {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00ffff, #ff00ff, #ffff00);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient 5s ease infinite;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #cccccc;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .core-concepts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+
+        .concept-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .concept-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s ease;
+            opacity: 0;
+        }
+
+        .concept-card:hover::before {
+            opacity: 1;
+            animation: shimmer 2s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .concept-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 255, 255, 0.2);
+            border-color: rgba(0, 255, 255, 0.6);
+        }
+
+        .concept-title {
+            font-size: 1.5rem;
+            color: #00ffff;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .concept-icon {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .concept-description {
+            color: #cccccc;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .concept-formula {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            color: #00ff00;
+            border-left: 4px solid #00ff00;
+            margin: 15px 0;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 60px 0;
+        }
+
+        .nav-button {
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            border: 2px solid #00ffff;
+            color: #00ffff;
+            padding: 15px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .nav-button:hover::before {
+            left: 100%;
+        }
+
+        .nav-button:hover {
+            background: linear-gradient(45deg, #00ffff, #0080ff);
+            color: #000;
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 255, 255, 0.3);
+        }
+
+        .frequency-visualization {
+            margin: 60px 0;
+            text-align: center;
+        }
+
+        .freq-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .freq-wave {
+            width: 150px;
+            height: 100px;
+            position: relative;
+            background: rgba(0, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .wave-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #00ffff;
+            transform-origin: center;
+        }
+
+        .wave-line:nth-child(1) { animation: wave1 2s ease-in-out infinite; }
+        .wave-line:nth-child(2) { animation: wave2 2.5s ease-in-out infinite; }
+        .wave-line:nth-child(3) { animation: wave3 3s ease-in-out infinite; }
+
+        @keyframes wave1 {
+            0%, 100% { transform: translateY(0) scaleY(1); }
+            50% { transform: translateY(-10px) scaleY(1.5); }
+        }
+
+        @keyframes wave2 {
+            0%, 100% { transform: translateY(0) scaleY(1); }
+            50% { transform: translateY(10px) scaleY(2); }
+        }
+
+        @keyframes wave3 {
+            0%, 100% { transform: translateY(0) scaleY(1); }
+            50% { transform: translateY(-5px) scaleY(1.2); }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid rgba(0, 255, 255, 0.3);
+            margin-top: 60px;
+        }
+
+        .footer-text {
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2rem;
+            }
+            
+            .core-concepts {
+                grid-template-columns: 1fr;
+            }
+            
+            .navigation {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">信息基因论 · 新信息元宇宙</h1>
+            <p class="subtitle">基于频率相干性与秩序锁定机制的去中心化共识网络</p>
+        </header>
+
+        <section class="core-concepts">
+            <div class="concept-card">
+                <h3 class="concept-title">
+                    <div class="concept-icon">IG</div>
+                    信息基因 (IG)
+                </h3>
+                <p class="concept-description">
+                    信息基因是元宇宙中的基本信息单元，包含数据结构、语义内容和频率特征。每个IG都具有独特的频率签名，通过频率相干性实现信息的有序组织。
+                </p>
+                <div class="concept-formula">
+                    IG = {数据结构, 语义内容, 频率特征}<br>
+                    频率相干性: C_coh = |Σ(f_i × f_j)| / (N × Σ|f_i|²)
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3 class="concept-title">
+                    <div class="concept-icon">RV</div>
+                    RVS演化循环
+                </h3>
+                <p class="concept-description">
+                    复制-变异-选择(RVS)机制驱动信息基因的演化。通过多尺度验证(CV < 0.2)和秩序度计算，实现信息的自适应优化。
+                </p>
+                <div class="concept-formula">
+                    秩序度: O_freq = 1 - S_freq/log₂N<br>
+                    多尺度验证: CV = σ_μ/μ_avg < 0.2
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3 class="concept-title">
+                    <div class="concept-icon">CK</div>
+                    共识知识库
+                </h3>
+                <p class="concept-description">
+                    三层金字塔结构的共识知识库：基础共识层、领域共识层、创新共识层。通过DAO治理和区块链验证确保知识的可信性和一致性。
+                </p>
+                <div class="concept-formula">
+                    CKB = Σ(IG_i × W_i × C_coh_i)<br>
+                    权重分配: W_i = f(贡献度, 频率稳定性)
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3 class="concept-title">
+                    <div class="concept-icon">AI</div>
+                    AI自演化
+                </h3>
+                <p class="concept-description">
+                    AI系统通过频率共振校准实现自演化，在秩序锁定机制约束下，确保演化方向与人类共识知识库保持一致，防止价值偏离。
+                </p>
+                <div class="concept-formula">
+                    频率锁定: Δf_lock = α × (C_coh - C_target)<br>
+                    演化约束: |ΔValue| < ε × Value_CKB
+                </div>
+            </div>
+        </section>
+
+        <section class="frequency-visualization">
+            <h2 style="color: #00ffff; margin-bottom: 30px;">频率相干性可视化</h2>
+            <div class="freq-container">
+                <div class="freq-wave">
+                    <div class="wave-line"></div>
+                    <div class="wave-line"></div>
+                    <div class="wave-line"></div>
+                </div>
+                <div class="freq-wave">
+                    <div class="wave-line"></div>
+                    <div class="wave-line"></div>
+                    <div class="wave-line"></div>
+                </div>
+                <div class="freq-wave">
+                    <div class="wave-line"></div>
+                    <div class="wave-line"></div>
+                    <div class="wave-line"></div>
+                </div>
+            </div>
+            <p style="color: #cccccc; margin-top: 20px;">
+                不同信息基因之间的频率共振现象，当相干性系数C_coh > 0.6时达到最优状态
+            </p>
+        </section>
+
+        <nav class="navigation">
+            <a href="ckb-pyramid.html" class="nav-button">共识知识库</a>
+            <a href="frequency-coherence.html" class="nav-button">频率相干性</a>
+            <a href="ai-evolution.html" class="nav-button">AI自演化</a>
+            <a href="economic-system.html" class="nav-button">经济系统</a>
+            <a href="dao-governance.html" class="nav-button">DAO治理</a>
+            <a href="order-locking.html" class="nav-button">秩序锁定</a>
+        </nav>
+
+        <footer class="footer">
+            <p class="footer-text">
+                © 2024 信息基因论 · 基于频率相干性的去中心化共识网络 | 
+                理论版本: IGT v5.4 | 
+                构建目标: 人类共识知识库与AI和谐共生
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // 添加交互效果
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为概念卡片添加点击效果
+            const cards = document.querySelectorAll('.concept-card');
+            cards.forEach(card => {
+                card.addEventListener('click', function() {
+                    this.style.transform = 'scale(1.02)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 200);
+                });
+            });
+
+            // 动态更新频率可视化
+            function updateFrequencyWaves() {
+                const waves = document.querySelectorAll('.wave-line');
+                waves.forEach((wave, index) => {
+                    const randomDelay = Math.random() * 2;
+                    wave.style.animationDelay = randomDelay + 's';
+                });
+            }
+
+            // 每5秒更新一次频率波
+            setInterval(updateFrequencyWaves, 5000);
+            
+            console.log('信息基因论 · 新信息元宇宙demo已加载完成');
+            console.log('核心概念：信息基因(IG) -> RVS演化循环 -> 共识知识库(CKB) -> AI自演化');
+            console.log('频率相干性系数C_coh > 0.6时达到最优共识状态');
+        });
+    </script>
+</body>
+</html>

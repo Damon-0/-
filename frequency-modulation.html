@@ -310,6 +310,35 @@
                         </select>
                     </div>
                     
+                    <div class="control-group" id="educationStageGroup" style="display: none;">
+                        <label for="educationStage">教育阶段</label>
+                        <select id="educationStage">
+                            <optgroup label="幼儿园">
+                                <option value="kindergarten_small">小班 (3-4岁)</option>
+                                <option value="kindergarten_middle">中班 (4-5岁)</option>
+                                <option value="kindergarten_large">大班 (5-6岁)</option>
+                            </optgroup>
+                            <optgroup label="小学">
+                                <option value="primary_1">一年级 (6-7岁)</option>
+                                <option value="primary_2">二年级 (7-8岁)</option>
+                                <option value="primary_3">三年级 (8-9岁)</option>
+                                <option value="primary_4">四年级 (9-10岁)</option>
+                                <option value="primary_5">五年级 (10-11岁)</option>
+                                <option value="primary_6">六年级 (11-12岁)</option>
+                            </optgroup>
+                            <optgroup label="初中">
+                                <option value="junior_7">七年级 (12-13岁)</option>
+                                <option value="junior_8">八年级 (13-14岁)</option>
+                                <option value="junior_9">九年级 (14-15岁)</option>
+                            </optgroup>
+                            <optgroup label="高中">
+                                <option value="senior_10">十年级 (15-16岁)</option>
+                                <option value="senior_11">十一年级 (16-17岁)</option>
+                                <option value="senior_12">十二年级 (17-18岁)</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    
                     <div class="control-group">
                         <label for="complexity">认知复杂度</label>
                         <select id="complexity">
@@ -425,6 +454,176 @@
                 }
             },
             learning: {
+                // 幼儿园阶段
+                kindergarten_small: {
+                    simple: [
+                        { text: "小手拍拍，快乐学说话 👏", voi: 1, frequency: "4.8Hz" },
+                        { text: "幼儿园是彩虹乐园 🌈", voi: 1, frequency: "5.2Hz" },
+                        { text: "和小朋友一起笑哈哈 😊", voi: 1, frequency: "4.5Hz" }
+                    ],
+                    moderate: [
+                        { text: "在爱的花园里，我们像小种子一样成长 🌱", voi: 1, frequency: "5.8Hz" },
+                        { text: "每个游戏都是发现世界的小窗户 🪟", voi: 1, frequency: "6.1Hz" }
+                    ]
+                },
+                kindergarten_middle: {
+                    simple: [
+                        { text: "我是勇敢的小探险家 🧗‍♀️", voi: 1, frequency: "5.5Hz" },
+                        { text: "画画让我快乐 🎨", voi: 1, frequency: "5.8Hz" },
+                        { text: "唱歌跳舞真开心 🎵", voi: 1, frequency: "5.2Hz" }
+                    ],
+                    moderate: [
+                        { text: "好奇心是我的超能力，发现让我闪闪发光 ✨", voi: 2, frequency: "6.5Hz" },
+                        { text: "在想象的国度里，我建造属于自己的童话城堡 🏰", voi: 2, frequency: "6.8Hz" }
+                    ]
+                },
+                kindergarten_large: {
+                    simple: [
+                        { text: "我要学写字啦 ✏️", voi: 1, frequency: "6.2Hz" },
+                        { text: "数数真有趣 123 🔢", voi: 1, frequency: "6.5Hz" },
+                        { text: "我要上小学啦 🎒", voi: 1, frequency: "6.8Hz" }
+                    ],
+                    moderate: [
+                        { text: "知识如积木，我一块块搭建自己的智慧城堡 🧱", voi: 2, frequency: "7.2Hz" },
+                        { text: "每次学会新本领，我就长大一点点 📏", voi: 2, frequency: "7.5Hz" }
+                    ]
+                },
+                // 小学阶段
+                primary_1: {
+                    simple: [
+                        { text: "我是小学生啦！📚", voi: 1, frequency: "6.8Hz" },
+                        { text: "拼音是我的新朋友 🔤", voi: 1, frequency: "7.1Hz" },
+                        { text: "数字真神奇 🔢", voi: 1, frequency: "6.5Hz" }
+                    ],
+                    moderate: [
+                        { text: "在知识的花园里，我播下第一颗学习的种子 🌱", voi: 2, frequency: "7.8Hz" },
+                        { text: "每个字母都是打开新世界的魔法钥匙 🔑", voi: 2, frequency: "8.1Hz" }
+                    ]
+                },
+                primary_2: {
+                    simple: [
+                        { text: "我会读故事书啦 📖", voi: 1, frequency: "7.2Hz" },
+                        { text: "加减法真有趣 ➕", voi: 1, frequency: "7.5Hz" },
+                        { text: "我爱科学课 🔬", voi: 1, frequency: "7.8Hz" }
+                    ],
+                    moderate: [
+                        { text: "阅读带我穿越时空，探索古今中外的奇妙世界 🌍", voi: 2, frequency: "8.5Hz" },
+                        { text: "数学如音乐，数字和符号组成优美的逻辑交响曲 🎼", voi: 2, frequency: "8.8Hz" }
+                    ]
+                },
+                primary_3: {
+                    simple: [
+                        { text: "我会写日记啦 📝", voi: 2, frequency: "8.1Hz" },
+                        { text: "乘除法也难不倒我 ✖️", voi: 2, frequency: "8.5Hz" },
+                        { text: "英语真有趣 ABC 🔤", voi: 2, frequency: "7.8Hz" }
+                    ],
+                    moderate: [
+                        { text: "写作是心灵的画笔，用文字描绘内心的彩虹世界 🌈", voi: 2, frequency: "9.2Hz" },
+                        { text: "英语学习让我能和世界不同地方的小朋友打招呼 🌍", voi: 2, frequency: "9.5Hz" }
+                    ]
+                },
+                primary_4: {
+                    simple: [
+                        { text: "我会写作文啦 ✍️", voi: 2, frequency: "8.8Hz" },
+                        { text: "小数点也难不倒我 📊", voi: 2, frequency: "9.2Hz" },
+                        { text: "科学实验真神奇 🧪", voi: 2, frequency: "8.5Hz" }
+                    ],
+                    moderate: [
+                        { text: "分数如生活的调味剂，让数学变得丰富多彩 🎨", voi: 2, frequency: "9.8Hz" },
+                        { text: "科学探究让我用好奇的眼睛重新发现世界 🔍", voi: 2, frequency: "10.1Hz" }
+                    ]
+                },
+                primary_5: {
+                    simple: [
+                        { text: "几何图形真美妙 📐", voi: 2, frequency: "9.5Hz" },
+                        { text: "方程是我的新工具 🔧", voi: 2, frequency: "9.8Hz" },
+                        { text: "历史故事真精彩 🏛️", voi: 2, frequency: "9.2Hz" }
+                    ],
+                    moderate: [
+                        { text: "几何世界让我用数学的眼光欣赏空间的和谐之美 🌟", voi: 2, frequency: "10.5Hz" },
+                        { text: "历史学习让我明白今天的幸福生活来之不易 📚", voi: 2, frequency: "10.8Hz" }
+                    ]
+                },
+                primary_6: {
+                    simple: [
+                        { text: "我要准备毕业啦 🎓", voi: 2, frequency: "10.2Hz" },
+                        { text: "百分数让我更聪明 📈", voi: 2, frequency: "10.5Hz" },
+                        { text: "初中生活在等我 🏫", voi: 2, frequency: "9.8Hz" }
+                    ],
+                    moderate: [
+                        { text: "小学毕业是成长路上的重要里程碑，我要展翅高飞 🦅", voi: 2, frequency: "11.2Hz" },
+                        { text: "统计让我学会用数据说话，做个有依据的思考者 📊", voi: 2, frequency: "11.5Hz" }
+                    ]
+                },
+                // 初中阶段
+                junior_7: {
+                    simple: [
+                        { text: "我是初中生啦！🏫", voi: 2, frequency: "10.8Hz" },
+                        { text: "代数让我思维更严密 📐", voi: 2, frequency: "11.2Hz" },
+                        { text: "文言文真有趣 📜", voi: 2, frequency: "10.5Hz" }
+                    ],
+                    moderate: [
+                        { text: "初中生活如彩虹般绚丽，每一科都是独特的色彩 🌈", voi: 2, frequency: "11.8Hz" },
+                        { text: "代数学习培养我的抽象思维，让我看到世界的数学本质 🧮", voi: 2, frequency: "12.1Hz" }
+                    ]
+                },
+                junior_8: {
+                    simple: [
+                        { text: "物理让我懂科学 🔬", voi: 2, frequency: "11.5Hz" },
+                        { text: "函数关系真奇妙 📈", voi: 2, frequency: "11.8Hz" },
+                        { text: "英语交流更自信 🗣️", voi: 2, frequency: "11.2Hz" }
+                    ],
+                    moderate: [
+                        { text: "物理世界充满奥秘，每个公式都描述着自然的和谐规律 ⚖️", voi: 3, frequency: "12.5Hz" },
+                        { text: "函数思想让我理解变量间的深层联系，培养系统思维 🔗", voi: 3, frequency: "12.8Hz" }
+                    ]
+                },
+                junior_9: {
+                    simple: [
+                        { text: "化学元素真神奇 ⚗️", voi: 2, frequency: "12.2Hz" },
+                        { text: "中考冲刺我能行 💪", voi: 2, frequency: "12.5Hz" },
+                        { text: "几何证明我掌握 📏", voi: 2, frequency: "11.8Hz" }
+                    ],
+                    moderate: [
+                        { text: "化学反应如生活的调味剂，让科学变得绚丽多彩 🌈", voi: 3, frequency: "13.2Hz" },
+                        { text: "中考是人生的重要驿站，我要用实力证明自己的成长 📈", voi: 3, frequency: "13.5Hz" }
+                    ]
+                },
+                // 高中阶段
+                senior_10: {
+                    simple: [
+                        { text: "高中生活新起点 🎯", voi: 2, frequency: "12.8Hz" },
+                        { text: "集合让我思维更清晰 📊", voi: 2, frequency: "13.2Hz" },
+                        { text: "古诗词真优美 🌸", voi: 2, frequency: "12.5Hz" }
+                    ],
+                    moderate: [
+                        { text: "高中是梦想起航的地方，每一节课都是通往未来的阶梯 🗼", voi: 3, frequency: "13.8Hz" },
+                        { text: "集合论培养我的抽象思维，让我用数学语言描述世界 🌍", voi: 3, frequency: "14.1Hz" }
+                    ]
+                },
+                senior_11: {
+                    simple: [
+                        { text: "导数让我更聪明 📈", voi: 3, frequency: "13.5Hz" },
+                        { text: "物理定律我掌握 ⚡", voi: 3, frequency: "13.8Hz" },
+                        { text: "英语表达更流利 🌐", voi: 3, frequency: "13.2Hz" }
+                    ],
+                    moderate: [
+                        { text: "导数是微积分的基石，让我理解变化的本质和规律 🔄", voi: 3, frequency: "14.5Hz" },
+                        { text: "物理定律描述宇宙的和谐，让我感受科学的理性之美 🌟", voi: 3, frequency: "14.8Hz" }
+                    ]
+                },
+                senior_12: {
+                    simple: [
+                        { text: "高考冲刺我能行 🚀", voi: 3, frequency: "14.2Hz" },
+                        { text: "积分让我更强大 📊", voi: 3, frequency: "14.5Hz" },
+                        { text: "大学生活等我探索 🏛️", voi: 3, frequency: "13.8Hz" }
+                    ],
+                    moderate: [
+                        { text: "高考是人生的重要转折点，我要用知识和智慧开启新篇章 📖", voi: 3, frequency: "15.2Hz" },
+                        { text: "积分如人生的积累，每一部分都构成完整的自我 🧩", voi: 3, frequency: "15.5Hz" }
+                    ]
+                },
+                // 原有学习场景保留
                 child: {
                     simple: [
                         { text: "学习是超棒的冒险！🚀", voi: 1, frequency: "5.8Hz" },
@@ -600,11 +799,38 @@
         document.getElementById('scenario').addEventListener('change', function() {
             const scenario = this.value;
             const professionGroup = document.getElementById('profession').parentElement;
+            const educationStageGroup = document.getElementById('educationStageGroup');
             
             if (scenario === 'enterprise') {
                 professionGroup.style.display = 'block';
+                educationStageGroup.style.display = 'none';
+            } else if (scenario === 'learning') {
+                educationStageGroup.style.display = 'block';
+                professionGroup.style.display = 'none';
             } else {
                 professionGroup.style.display = 'none';
+                educationStageGroup.style.display = 'none';
+            }
+        });
+
+        // 监听年龄段变化，自动选择合适的教育阶段
+        document.getElementById('ageGroup').addEventListener('change', function() {
+            const ageGroup = this.value;
+            const scenario = document.getElementById('scenario').value;
+            const educationStage = document.getElementById('educationStage');
+            
+            if (scenario === 'learning') {
+                // 根据年龄段自动推荐教育阶段
+                switch(ageGroup) {
+                    case 'child':
+                        educationStage.value = 'primary_3'; // 默认小学三年级
+                        break;
+                    case 'teen':
+                        educationStage.value = 'junior_8'; // 默认初中八年级
+                        break;
+                    default:
+                        educationStage.value = 'primary_1'; // 默认小学一年级
+                }
             }
         });
     </script>
