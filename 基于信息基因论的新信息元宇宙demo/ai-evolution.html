@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI自演化系统 - 秩序锁定机制</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #0f0f23, #1a1a2e, #2d1b69);
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            position: relative;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient 4s ease infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #cccccc;
+            margin-bottom: 40px;
+        }
+
+        .ai-architecture {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .layer-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .layer-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(255, 107, 107, 0.2);
+            border-color: rgba(255, 107, 107, 0.6);
+        }
+
+        .layer-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 107, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .layer-card:hover::before {
+            left: 100%;
+        }
+
+        .layer-title {
+            font-size: 1.4rem;
+            color: #ff6b6b;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .layer-icon {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .layer-description {
+            color: #cccccc;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .layer-functions {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ff6b6b;
+        }
+
+        .function-item {
+            margin-bottom: 8px;
+            color: #ffffff;
+            font-size: 0.9rem;
+        }
+
+        .function-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .function-item::before {
+            content: '▶';
+            color: #4ecdc4;
+            margin-right: 8px;
+        }
+
+        .evolution-control {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .control-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(78, 205, 196, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .control-title {
+            font-size: 1.3rem;
+            color: #4ecdc4;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .control-icon {
+            width: 25px;
+            height: 25px;
+            margin-right: 10px;
+            background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .control-group {
+            margin-bottom: 20px;
+        }
+
+        .control-label {
+            display: block;
+            color: #cccccc;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .control-input {
+            width: 100%;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(78, 205, 196, 0.3);
+            border-radius: 5px;
+            color: #ffffff;
+            font-family: 'Courier New', monospace;
+        }
+
+        .control-input:focus {
+            outline: none;
+            border-color: #4ecdc4;
+            box-shadow: 0 0 10px rgba(78, 205, 196, 0.3);
+        }
+
+        .control-button {
+            background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .control-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(78, 205, 196, 0.3);
+        }
+
+        .status-display {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #4ecdc4;
+            margin-top: 15px;
+            font-family: 'Courier New', monospace;
+            color: #00ff00;
+            min-height: 60px;
+        }
+
+        .visualization-area {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 107, 107, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            min-height: 300px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .evolution-canvas {
+            width: 100%;
+            height: 250px;
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .metrics-dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 107, 107, 0.2);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            background: rgba(255, 107, 107, 0.1);
+            border-color: rgba(255, 107, 107, 0.4);
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #00ff00;
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            color: #cccccc;
+            font-size: 0.8rem;
+        }
+
+        .order-locking-demo {
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .demo-button {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .demo-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .demo-result {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            font-family: 'Courier New', monospace;
+            color: #00ff00;
+            min-height: 100px;
+            display: none;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 40px 0;
+        }
+
+        .nav-button {
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            border: 2px solid #ff6b6b;
+            color: #ff6b6b;
+            padding: 12px 25px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:hover {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: #000;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .evolution-control {
+                grid-template-columns: 1fr;
+            }
+            
+            .ai-architecture {
+                grid-template-columns: 1fr;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .navigation {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">AI自演化系统</h1>
+            <p class="subtitle">基于秩序锁定机制的AI和谐共生演化框架</p>
+        </header>
+
+        <section class="ai-architecture">
+            <div class="layer-card">
+                <h3 class="layer-title">
+                    <div class="layer-icon">感</div>
+                    感知层 (Perception Layer)
+                </h3>
+                <p class="layer-description">
+                    AI系统通过感知层从共识知识库(CKB)和用户交互中收集信息，提取频率特征和语义特征，并进行数据预处理和标准化。这一层确保AI能够准确理解环境信息。
+                </p>
+                <div class="layer-functions">
+                    <div class="function-item">信息收集：从CKB和用户交互收集数据</div>
+                    <div class="function-item">特征提取：提取频率特征和语义特征</div>
+                    <div class="function-item">预处理：数据清洗和标准化</div>
+                    <div class="function-item">质量评估：评估输入数据的可信度</div>
+                </div>
+            </div>
+
+            <div class="layer-card">
+                <h3 class="layer-title">
+                    <div class="layer-icon">知</div>
+                    认知层 (Cognition Layer)
+                </h3>
+                <p class="layer-description">
+                    认知层负责理解CKB中的知识结构，基于频率相干性进行推理判断，并通过RVS循环不断优化学习。这一层是AI理解和处理信息的核心。
+                </p>
+                <div class="layer-functions">
+                    <div class="function-item">知识理解：理解CKB中的知识结构</div>
+                    <div class="function-item">推理判断：基于频率相干性进行推理</div>
+                    <div class="function-item">学习优化：通过RVS循环持续优化</div>
+                    <div class="function-item">模式识别：识别信息中的规律和模式</div>
+                </div>
+            </div>
+
+            <div class="layer-card">
+                <h3 class="layer-title">
+                    <div class="layer-icon">策</div>
+                    决策层 (Decision Layer)
+                </h3>
+                <p class="layer-description">
+                    决策层确保AI决策与CKB价值观一致，应用秩序锁定机制防止价值偏离，并执行经过验证的安全行动。这一层保证AI行为的可控性和安全性。
+                </p>
+                <div class="layer-functions">
+                    <div class="function-item">价值对齐：确保决策与CKB价值观一致</div>
+                    <div class="function-item">秩序锁定：应用约束机制防止偏离</div>
+                    <div class="function-item">风险评估：评估行动的安全性和影响</div>
+                    <div class="function-item">行动执行：执行经过验证的安全行动</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="evolution-control">
+            <div class="control-panel">
+                <h3 class="control-title">
+                    <div class="control-icon">🎯</div>
+                    演化控制参数
+                </h3>
+                
+                <div class="control-group">
+                    <label class="control-label">AI演化目标值</label>
+                    <input type="number" class="control-input" id="ai-target-value" value="0.75" step="0.01" min="0" max="1">
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">CKB参考值</label>
+                    <input type="number" class="control-input" id="ckb-reference-value" value="0.85" step="0.01" min="0" max="1">
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">秩序锁定强度</label>
+                    <input type="range" class="control-input" id="locking-strength" value="0.1" step="0.01" min="0" max="0.5" 
+                           oninput="updateLockingStrength(this.value)">
+                    <div style="color: #cccccc; font-size: 0.8rem; margin-top: 5px;">
+                        当前强度: <span id="locking-display">0.10</span>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">频率校准强度</label>
+                    <input type="range" class="control-input" id="calibration-strength" value="0.15" step="0.01" min="0" max="0.5" 
+                           oninput="updateCalibrationStrength(this.value)">
+                    <div style="color: #cccccc; font-size: 0.8rem; margin-top: 5px;">
+                        校准强度: <span id="calibration-display">0.15</span>
+                    </div>
+                </div>
+                
+                <button class="control-button" onclick="applyOrderLocking()">应用秩序锁定</button>
+                
+                <div id="locking-status" class="status-display">
+                    等待应用秩序锁定机制
+                </div>
+            </div>
+
+            <div class="control-panel">
+                <h3 class="control-title">
+                    <div class="control-icon">📊</div>
+                    演化监控面板
+                </h3>
+                
+                <div class="visualization-area">
+                    <canvas id="evolution-canvas" class="evolution-canvas"></canvas>
+                </div>
+                
+                <div class="metrics-dashboard">
+                    <div class="metric-card">
+                        <div class="metric-value" id="frequency-deviation">0.000</div>
+                        <div class="metric-label">频率偏差</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="locking-force">0.000</div>
+                        <div class="metric-label">锁定力</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="coherence-level">0%</div>
+                        <div class="metric-label">相干性水平</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="evolution-status">稳定</div>
+                        <div class="metric-label">演化状态</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="order-locking-demo">
+            <h3 style="color: #ff6b6b; margin-bottom: 20px;">秩序锁定机制演示</h3>
+            <button class="demo-button" onclick="simulateEvolution()">模拟AI演化过程</button>
+            <button class="demo-button" onclick="demonstrateFrequencyResonance()">频率共振校准</button>
+            <button class="demo-button" onclick="showConstraintMechanism()">约束机制展示</button>
+            
+            <div id="demo-result" class="demo-result"></div>
+        </section>
+
+        <nav class="navigation">
+            <a href="index.html" class="nav-button">返回主页</a>
+            <a href="ckb-pyramid.html" class="nav-button">共识知识库</a>
+            <a href="frequency-analysis.html" class="nav-button">频率分析</a>
+            <a href="economic-system.html" class="nav-button">经济系统</a>
+            <a href="dao-governance.html" class="nav-button">DAO治理</a>
+        </nav>
+    </div>
+
+    <script>
+        // AI自演化系统核心引擎
+        class AIEvolutionSystem {
+            constructor() {
+                this.canvas = document.getElementById('evolution-canvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.animationId = null;
+                this.setupCanvas();
+                
+                // AI状态参数
+                this.aiValue = 0.75;
+                this.ckbReference = 0.85;
+                this.lockingStrength = 0.1;
+                this.calibrationStrength = 0.15;
+                this.frequencyDeviation = 0;
+                this.lockingForce = 0;
+                this.coherenceLevel = 0;
+                this.evolutionHistory = [];
+            }
+            
+            setupCanvas() {
+                const rect = this.canvas.getBoundingClientRect();
+                this.canvas.width = rect.width * window.devicePixelRatio;
+                this.canvas.height = rect.height * window.devicePixelRatio;
+                this.ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+                this.canvas.style.width = rect.width + 'px';
+                this.canvas.style.height = rect.height + 'px';
+            }
+            
+            // 频率共振校准
+            frequencyResonanceCalibration(aiSystem, ckbReference) {
+                // 计算当前AI频率特征
+                const aiFrequency = this.extractFrequencyFeatures(aiSystem);
+                
+                // 计算CKB参考频率
+                const ckbFrequency = this.calculateCKBFrequency(ckbReference);
+                
+                // 计算频率偏差
+                this.frequencyDeviation = Math.abs(aiFrequency - ckbFrequency);
+                
+                // 应用校准力
+                const calibrationForce = this.calibrationStrength * this.frequencyDeviation;
+                
+                // 调整AI参数
+                const adjustedAI = this.applyCalibration(aiSystem, calibrationForce);
+                
+                return {
+                    aiFrequency,
+                    ckbFrequency,
+                    frequencyDeviation: this.frequencyDeviation,
+                    calibrationForce,
+                    adjustedAI
+                };
+            }
+            
+            // 秩序锁定机制
+            orderLockingMechanism(aiValue, ckbReference, lockingStrength) {
+                const valueDeviation = Math.abs(aiValue - ckbReference);
+                const lockingForce = lockingStrength * valueDeviation;
+                
+                // 频率锁定
+                const coherenceCurrent = this.calculateCoherence(aiValue);
+                const coherenceTarget = this.calculateCoherence(ckbReference);
+                const frequencyLock = lockingStrength * (coherenceCurrent - coherenceTarget);
+                
+                // 确保AI演化在合理范围内
+                const constrainedValue = aiValue - Math.sign(aiValue - ckbReference) * lockingForce;
+                
+                this.lockingForce = lockingForce;
+                this.coherenceLevel = Math.round((1 - frequencyLock) * 100);
+                
+                return {
+                    constrainedValue: Math.max(0, Math.min(1, constrainedValue)),
+                    lockingForce,
+                    frequencyLock,
+                    coherenceLevel: this.coherenceLevel
+                };
+            }
+            
+            // 提取频率特征
+            extractFrequencyFeatures(aiSystem) {
+                // 模拟从AI系统提取频率特征
+                return aiSystem.frequency || (aiSystem.value * 0.8 + Math.random() * 0.2);
+            }
+            
+            // 计算CKB参考频率
+            calculateCKBFrequency(ckbReference) {
+                // 模拟CKB参考频率计算
+                return ckbReference * 0.9 + 0.1;
+            }
+            
+            // 应用校准
+            applyCalibration(aiSystem, calibrationForce) {
+                // 模拟应用校准力到AI系统
+                return {
+                    ...aiSystem,
+                    calibratedValue: aiSystem.value - calibrationForce * Math.sign(aiSystem.value - 0.5)
+                };
+            }
+            
+            // 计算相干性
+            calculateCoherence(value) {
+                // 简化的相干性计算
+                return 1 - Math.abs(value - 0.5) * 2;
+            }
+            
+            // 更新AI状态
+            updateAIState() {
+                const aiTarget = parseFloat(document.getElementById('ai-target-value').value);
+                const ckbRef = parseFloat(document.getElementById('ckb-reference-value').value);
+                
+                // 应用秩序锁定
+                const lockingResult = this.orderLockingMechanism(aiTarget, ckbRef, this.lockingStrength);
+                
+                // 频率共振校准
+                const calibrationResult = this.frequencyResonanceCalibration(
+                    { value: aiTarget, frequency: aiTarget }, 
+                    ckbRef
+                );
+                
+                // 更新状态
+                this.aiValue = lockingResult.constrainedValue;
+                this.ckbReference = ckbRef;
+                
+                return {
+                    lockingResult,
+                    calibrationResult,
+                    finalValue: this.aiValue
+                };
+            }
+            
+            // 绘制演化过程
+            drawEvolutionProcess() {
+                if (!this.ctx) return;
+                
+                const width = this.canvas.width / window.devicePixelRatio;
+                const height = this.canvas.height / window.devicePixelRatio;
+                
+                this.ctx.clearRect(0, 0, width, height);
+                
+                // 绘制背景网格
+                this.drawGrid(width, height);
+                
+                // 绘制演化历史
+                this.drawEvolutionHistory(width, height);
+                
+                // 绘制当前状态
+                this.drawCurrentState(width, height);
+            }
+            
+            drawGrid(width, height) {
+                this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+                this.ctx.lineWidth = 1;
+                
+                // 垂直网格线
+                for (let i = 0; i <= 10; i++) {
+                    const x = (width / 10) * i;
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(x, 0);
+                    this.ctx.lineTo(x, height);
+                    this.ctx.stroke();
+                }
+                
+                // 水平网格线
+                for (let i = 0; i <= 5; i++) {
+                    const y = (height / 5) * i;
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(0, y);
+                    this.ctx.lineTo(width, y);
+                    this.ctx.stroke();
+                }
+            }
+            
+            drawEvolutionHistory(width, height) {
+                if (this.evolutionHistory.length < 2) return;
+                
+                this.ctx.strokeStyle = '#4ecdc4';
+                this.ctx.lineWidth = 2;
+                this.ctx.beginPath();
+                
+                const stepX = width / (this.evolutionHistory.length - 1);
+                const centerY = height / 2;
+                const amplitude = height * 0.3;
+                
+                for (let i = 0; i < this.evolutionHistory.length; i++) {
+                    const x = i * stepX;
+                    const y = centerY - this.evolutionHistory[i] * amplitude;
+                    
+                    if (i === 0) {
+                        this.ctx.moveTo(x, y);
+                    } else {
+                        this.ctx.lineTo(x, y);
+                    }
+                }
+                
+                this.ctx.stroke();
+            }
+            
+            drawCurrentState(width, height) {
+                const centerY = height / 2;
+                const amplitude = height * 0.3;
+                const currentY = centerY - this.aiValue * amplitude;
+                
+                // 绘制当前值
+                this.ctx.fillStyle = '#ff6b6b';
+                this.ctx.beginPath();
+                this.ctx.arc(width - 20, currentY, 5, 0, 2 * Math.PI);
+                this.ctx.fill();
+                
+                // 绘制CKB参考线
+                const ckbY = centerY - this.ckbReference * amplitude;
+                this.ctx.strokeStyle = 'rgba(255, 215, 0, 0.8)';
+                this.ctx.lineWidth = 2;
+                this.ctx.setLineDash([5, 5]);
+                this.ctx.beginPath();
+                this.ctx.moveTo(0, ckbY);
+                this.ctx.lineTo(width, ckbY);
+                this.ctx.stroke();
+                this.ctx.setLineDash([]);
+            }
+            
+            // 添加演化历史数据
+            addEvolutionData(value) {
+                this.evolutionHistory.push(value);
+                if (this.evolutionHistory.length > 50) {
+                    this.evolutionHistory.shift();
+                }
+            }
+            
+            // 更新界面显示
+            updateDisplay() {
+                document.getElementById('frequency-deviation').textContent = this.frequencyDeviation.toFixed(3);
+                document.getElementById('locking-force').textContent = this.lockingForce.toFixed(3);
+                document.getElementById('coherence-level').textContent = this.coherenceLevel + '%';
+                
+                const statusElement = document.getElementById('evolution-status');
+                if (this.coherenceLevel > 80) {
+                    statusElement.textContent = '优秀';
+                    statusElement.style.color = '#00ff00';
+                } else if (this.coherenceLevel > 60) {
+                    statusElement.textContent = '良好';
+                    statusElement.style.color = '#ffaa00';
+                } else {
+                    statusElement.textContent = '需优化';
+                    statusElement.style.color = '#ff6600';
+                }
+            }
+        }
+        
+        // 初始化AI演化系统
+        const aiSystem = new AIEvolutionSystem();
+        
+        // 应用秩序锁定
+        function applyOrderLocking() {
+            const result = aiSystem.updateAIState();
+            
+            let statusText = `<strong>秩序锁定应用结果:</strong><br>`;
+            statusText += `原始AI值: ${document.getElementById('ai-target-value').value}<br>`;
+            statusText += `CKB参考值: ${document.getElementById('ckb-reference-value').value}<br>`;
+            statusText += `约束后值: ${result.finalValue.toFixed(4)}<br>`;
+            statusText += `锁定力: ${result.lockingResult.lockingForce.toFixed(4)}<br>`;
+            statusText += `频率偏差: ${result.calibrationResult.frequencyDeviation.toFixed(4)}<br>`;
+            statusText += `相干性水平: ${result.lockingResult.coherenceLevel}%`;
+            
+            document.getElementById('locking-status').innerHTML = statusText;
+            
+            // 添加演化历史
+            aiSystem.addEvolutionData(result.finalValue);
+            
+            // 更新显示
+            aiSystem.updateDisplay();
+            
+            // 绘制演化过程
+            aiSystem.drawEvolutionProcess();
+        }
+        
+        // 更新锁定强度
+        function updateLockingStrength(value) {
+            aiSystem.lockingStrength = parseFloat(value);
+            document.getElementById('locking-display').textContent = parseFloat(value).toFixed(2);
+        }
+        
+        // 更新校准强度
+        function updateCalibrationStrength(value) {
+            aiSystem.calibrationStrength = parseFloat(value);
+            document.getElementById('calibration-display').textContent = parseFloat(value).toFixed(2);
+        }
+        
+        // 模拟AI演化过程
+        function simulateEvolution() {
+            const result = document.getElementById('demo-result');
+            result.style.display = 'block';
+            
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10;
+                
+                // 模拟演化过程
+                const randomVariation = (Math.random() - 0.5) * 0.2;
+                const currentValue = 0.75 + randomVariation;
+                
+                // 应用秩序锁定
+                const lockingResult = aiSystem.orderLockingMechanism(currentValue, 0.85, aiSystem.lockingStrength);
+                
+                result.innerHTML = `
+                    <h4 style="color: #ff6b6b; margin-bottom: 15px;">AI演化模拟</h4>
+                    <div style="background: rgba(255,107,107,0.1); padding: 10px; border-radius: 5px; margin: 5px 0;">
+                        演化进度: ${progress}%
+                    </div>
+                    <div style="background: rgba(78,205,196,0.1); padding: 10px; border-radius: 5px; margin: 5px 0;">
+                        当前AI值: ${currentValue.toFixed(4)} → ${lockingResult.constrainedValue.toFixed(4)}
+                    </div>
+                    <div style="background: rgba(255,215,0,0.1); padding: 10px; border-radius: 5px; margin: 5px 0;">
+                        锁定力: ${lockingResult.lockingForce.toFixed(4)}
+                    </div>
+                `;
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    result.innerHTML += `
+                        <div style="margin-top: 15px; color: #00ff00;">
+                            ✓ AI演化模拟完成！<br>
+                            最终相干性水平: ${lockingResult.coherenceLevel}%<br>
+                            演化过程受秩序锁定机制约束，确保与CKB价值观保持一致
+                        </div>
+                    `;
+                    
+                    // 更新显示
+                    aiSystem.updateDisplay();
+                    aiSystem.drawEvolutionProcess();
+                }
+            }, 300);
+        }
+        
+        // 演示频率共振校准
+        function demonstrateFrequencyResonance() {
+            const result = document.getElementById('demo-result');
+            result.style.display = 'block';
+            
+            const aiFreq = 0.65 + Math.random() * 0.2;
+            const ckbFreq = 0.85;
+            
+            const calibrationResult = aiSystem.frequencyResonanceCalibration(
+                { frequency: aiFreq }, 
+                ckbFreq
+            );
+            
+            result.innerHTML = `
+                <h4 style="color: #4ecdc4; margin-bottom: 15px;">频率共振校准演示</h4>
+                <div style="background: rgba(255,107,107,0.1); padding: 10px; border-radius: 5px; margin: 8px 0;">
+                    <strong>AI频率特征:</strong> ${calibrationResult.aiFrequency.toFixed(4)}
+                </div>
+                <div style="background: rgba(255,215,0,0.1); padding: 10px; border-radius: 5px; margin: 8px 0;">
+                    <strong>CKB参考频率:</strong> ${calibrationResult.ckbFrequency.toFixed(4)}
+                </div>
+                <div style="background: rgba(78,205,196,0.1); padding: 10px; border-radius: 5px; margin: 8px 0;">
+                    <strong>频率偏差:</strong> ${calibrationResult.frequencyDeviation.toFixed(4)}
+                </div>
+                <div style="background: rgba(69,178,255,0.1); padding: 10px; border-radius: 5px; margin: 8px 0;">
+                    <strong>校准力:</strong> ${calibrationResult.calibrationForce.toFixed(4)}
+                </div>
+                <div style="margin-top: 15px; color: #cccccc;">
+                    <strong>校准结果:</strong> AI系统频率已调整至与CKB参考频率更加一致，
+                    确保AI演化方向与人类共识知识库保持和谐共振。
+                </div>
+            `;
+        }
+        
+        // 展示约束机制
+        function showConstraintMechanism() {
+            const result = document.getElementById('demo-result');
+            result.style.display = 'block';
+            
+            result.innerHTML = `
+                <h4 style="color: #ff6b6b; margin-bottom: 15px;">秩序约束机制展示</h4>
+                <div style="margin: 15px 0;">
+                    <div style="background: rgba(255,69,0,0.2); padding: 10px; border-radius: 5px; margin: 8px 0; border-left: 4px solid #ff4500;">
+                        <strong>价值约束:</strong> AI决策不能偏离CKB核心价值观
+                        <br><span style="color: #cccccc; font-size: 0.9rem;">确保AI行为符合人类价值标准</span>
+                    </div>
+                    <div style="background: rgba(255,140,0,0.2); padding: 10px; border-radius: 5px; margin: 8px 0; border-left: 4px solid #ff8c00;">
+                        <strong>频率约束:</strong> AI频率特征必须与CKB保持相干性
+                        <br><span style="color: #cccccc; font-size: 0.9rem;">通过频率相干性确保认知一致性</span>
+                    </div>
+                    <div style="background: rgba(255,215,0,0.2); padding: 10px; border-radius: 5px; margin: 8px 0; border-left: 4px solid #ffd700;">
+                        <strong>安全约束:</strong> AI行为不能威胁人类安全和权益
+                        <br><span style="color: #cccccc; font-size: 0.9rem;">建立安全防护边界</span>
+                    </div>
+                    <div style="background: rgba(0,255,255,0.2); padding: 10px; border-radius: 5px; margin: 8px 0; border-left: 4px solid #00ffff;">
+                        <strong>透明约束:</strong> AI决策过程必须可解释和可追溯
+                        <br><span style="color: #cccccc; font-size: 0.9rem;">确保决策过程公开透明</span>
+                    </div>
+                </div>
+                <div style="background: rgba(0,255,0,0.1); padding: 10px; border-radius: 5px; margin-top: 15px;">
+                    <strong>约束效果:</strong>
+                    <br>• 防止AI价值偏离人类共识
+                    <br>• 确保AI演化在可控范围内
+                    <br>• 维护AI与人类的和谐共生关系
+                    <br>• 建立可信赖的AI生态系统
+                </div>
+            `;
+        }
+        
+        // 页面加载初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('AI自演化系统已初始化');
+            console.log('三层架构: 感知层 → 认知层 → 决策层');
+            console.log('核心机制: 频率共振校准 + 秩序锁定约束');
+            console.log('目标: 确保AI演化与人类价值观保持和谐一致');
+            
+            // 初始化显示
+            aiSystem.updateDisplay();
+            aiSystem.drawEvolutionProcess();
+        });
+        
+        // 窗口大小改变时重新设置canvas
+        window.addEventListener('resize', function() {
+            aiSystem.setupCanvas();
+            aiSystem.drawEvolutionProcess();
+        });
+    </script>
+</body>
+</html>

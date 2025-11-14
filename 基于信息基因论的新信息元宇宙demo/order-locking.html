@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>秩序锁定机制 - 新信息元宇宙</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, #00d4ff, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #a0a0a0;
+            font-size: 1.1rem;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+        }
+
+        .card h3 {
+            color: #00d4ff;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .control-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .control-group label {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.2);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #00d4ff;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #00d4ff;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        .value-display {
+            color: #00d4ff;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            color: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .visualization-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        #lockingVisualization {
+            width: 100%;
+            height: 100%;
+        }
+
+        .status-panel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .status-item {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .status-label {
+            color: #a0a0a0;
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+        }
+
+        .status-value {
+            color: #00d4ff;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .resonance-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            border-left: 4px solid #00d4ff;
+        }
+
+        .resonance-bar {
+            flex: 1;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .resonance-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b, #ffa500, #4ecdc4, #00d4ff);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .resonance-text {
+            color: #a0a0a0;
+            font-size: 0.8rem;
+            min-width: 60px;
+        }
+
+        .algorithm-panel {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .algorithm-title {
+            color: #00d4ff;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .algorithm-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 6px;
+            border-left: 3px solid #00d4ff;
+        }
+
+        .step-number {
+            background: #00d4ff;
+            color: #000;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .step-content {
+            flex: 1;
+            color: #c0c0c0;
+            font-size: 0.9rem;
+        }
+
+        .step-status {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ff6b6b;
+        }
+
+        .step-status.active {
+            background: #4ecdc4;
+            box-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
+        }
+
+        .step-status.completed {
+            background: #00d4ff;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        .log-panel {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+        }
+
+        .log-entry {
+            margin-bottom: 5px;
+            padding: 2px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .log-time {
+            color: #a0a0a0;
+            margin-right: 10px;
+        }
+
+        .log-message {
+            color: #c0c0c0;
+        }
+
+        .log-success {
+            color: #4ecdc4;
+        }
+
+        .log-warning {
+            color: #ffa500;
+        }
+
+        .log-error {
+            color: #ff6b6b;
+        }
+
+        .navigation {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 10px 15px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: #00d4ff;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .visualization-container {
+                height: 300px;
+            }
+            
+            .navigation {
+                position: static;
+                justify-content: center;
+                margin-bottom: 20px;
+            }
+        }
+
+        .wave-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .frequency-wave {
+            position: absolute;
+            stroke-width: 2;
+            fill: none;
+            opacity: 0.7;
+        }
+
+        .ai-wave {
+            stroke: #00d4ff;
+        }
+
+        .human-wave {
+            stroke: #ff6b6b;
+        }
+
+        .locked-wave {
+            stroke: #4ecdc4;
+            stroke-width: 3;
+        }
+    </style>
+</head>
+<body>
+    <div class="navigation">
+        <a href="index.html" class="nav-btn">首页</a>
+        <a href="frequency-analysis.html" class="nav-btn">频率分析</a>
+        <a href="ai-evolution.html" class="nav-btn">AI演化</a>
+        <a href="economic-system.html" class="nav-btn">经济系统</a>
+        <a href="dao-governance.html" class="nav-btn">DAO治理</a>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>秩序锁定机制</h1>
+            <p>基于频率共振校准的AI-人类协同治理系统</p>
+        </div>
+
+        <div class="main-grid">
+            <div class="card">
+                <h3>参数控制面板</h3>
+                <div class="control-panel">
+                    <div class="control-group">
+                        <label>
+                            AI频率 (f_AI)
+                            <span class="value-display" id="aiFreqValue">1.0</span>
+                        </label>
+                        <input type="range" class="slider" id="aiFreq" min="0.1" max="3.0" step="0.1" value="1.0">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>
+                            人类频率 (f_H)
+                            <span class="value-display" id="humanFreqValue">1.2</span>
+                        </label>
+                        <input type="range" class="slider" id="humanFreq" min="0.1" max="3.0" step="0.1" value="1.2">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>
+                            锁定强度 (L_s)
+                            <span class="value-display" id="lockingStrengthValue">0.5</span>
+                        </label>
+                        <input type="range" class="slider" id="lockingStrength" min="0.0" max="1.0" step="0.1" value="0.5">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>
+                            共振阈值 (R_t)
+                            <span class="value-display" id="resonanceThresholdValue">0.8</span>
+                        </label>
+                        <input type="range" class="slider" id="resonanceThreshold" min="0.1" max="1.0" step="0.1" value="0.8">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>
+                            校准速度 (C_v)
+                            <span class="value-display" id="calibrationSpeedValue">0.3</span>
+                        </label>
+                        <input type="range" class="slider" id="calibrationSpeed" min="0.1" max="1.0" step="0.1" value="0.3">
+                    </div>
+                    
+                    <button class="btn" id="startCalibration">开始校准</button>
+                    <button class="btn" id="resetSystem" style="background: linear-gradient(45deg, #ff6b6b, #ff5252);">重置系统</button>
+                </div>
+                
+                <div class="resonance-indicator">
+                    <span class="resonance-text">共振度</span>
+                    <div class="resonance-bar">
+                        <div class="resonance-fill" id="resonanceFill" style="width: 0%"></div>
+                    </div>
+                    <span class="resonance-text" id="resonanceText">0%</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>频率共振可视化</h3>
+                <div class="visualization-container">
+                    <canvas id="lockingVisualization"></canvas>
+                    <svg class="wave-container" id="waveContainer">
+                        <!-- 频率波将在这里动态生成 -->
+                    </svg>
+                </div>
+                
+                <div class="status-panel">
+                    <div class="status-item">
+                        <div class="status-label">AI状态</div>
+                        <div class="status-value" id="aiStatus">自由运行</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-label">人类状态</div>
+                        <div class="status-value" id="humanStatus">自由运行</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-label">锁定状态</div>
+                        <div class="status-value" id="lockingStatus">未锁定</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-label">校准进度</div>
+                        <div class="status-value" id="calibrationProgress">0%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>算法执行步骤</h3>
+                <div class="algorithm-panel">
+                    <div class="algorithm-title">频率共振校准算法</div>
+                    <div class="algorithm-steps" id="algorithmSteps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">检测AI和人类频率差异</div>
+                            <div class="step-status" id="step1Status"></div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">计算频率共振度 R = 1 - |f_AI - f_H| / max(f_AI, f_H)</div>
+                            <div class="step-status" id="step2Status"></div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">判断是否达到共振阈值 R ≥ R_t</div>
+                            <div class="step-status" id="step3Status"></div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">应用秩序锁定机制 F_lock = L_s × (f_AI - f_H)</div>
+                            <div class="step-status" id="step4Status"></div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">5</div>
+                            <div class="step-content">频率校准调整 f_new = f_current - C_v × F_lock</div>
+                            <div class="step-status" id="step5Status"></div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">6</div>
+                            <div class="step-content">验证校准结果并更新状态</div>
+                            <div class="step-status" id="step6Status"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>系统日志</h3>
+                <div class="log-panel" id="systemLog">
+                    <div class="log-entry">
+                        <span class="log-time">00:00:00</span>
+                        <span class="log-message">秩序锁定系统初始化完成</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class OrderLockingSystem {
+            constructor() {
+                this.isCalibrating = false;
+                this.calibrationStep = 0;
+                this.aiFrequency = 1.0;
+                this.humanFrequency = 1.2;
+                this.lockingStrength = 0.5;
+                this.resonanceThreshold = 0.8;
+                this.calibrationSpeed = 0.3;
+                this.resonanceLevel = 0;
+                this.isLocked = false;
+                this.calibrationProgress = 0;
+                this.logEntries = [];
+                this.animationId = null;
+                
+                this.init();
+            }
+
+            init() {
+                this.setupControls();
+                this.setupCanvas();
+                this.bindEvents();
+                this.updateDisplay();
+                this.startVisualization();
+            }
+
+            setupControls() {
+                const controls = [
+                    { id: 'aiFreq', variable: 'aiFrequency', display: 'aiFreqValue' },
+                    { id: 'humanFreq', variable: 'humanFrequency', display: 'humanFreqValue' },
+                    { id: 'lockingStrength', variable: 'lockingStrength', display: 'lockingStrengthValue' },
+                    { id: 'resonanceThreshold', variable: 'resonanceThreshold', display: 'resonanceThresholdValue' },
+                    { id: 'calibrationSpeed', variable: 'calibrationSpeed', display: 'calibrationSpeedValue' }
+                ];
+
+                controls.forEach(control => {
+                    const element = document.getElementById(control.id);
+                    const display = document.getElementById(control.display);
+                    
+                    element.addEventListener('input', (e) => {
+                        this[control.variable] = parseFloat(e.target.value);
+                        display.textContent = e.target.value;
+                        this.updateDisplay();
+                        this.addLog(`参数更新: ${control.id} = ${e.target.value}`);
+                    });
+                });
+            }
+
+            setupCanvas() {
+                const canvas = document.getElementById('lockingVisualization');
+                const container = canvas.parentElement;
+                canvas.width = container.clientWidth;
+                canvas.height = container.clientHeight;
+                
+                this.ctx = canvas.getContext('2d');
+                this.canvas = canvas;
+            }
+
+            bindEvents() {
+                document.getElementById('startCalibration').addEventListener('click', () => {
+                    this.startCalibration();
+                });
+
+                document.getElementById('resetSystem').addEventListener('click', () => {
+                    this.resetSystem();
+                });
+
+                window.addEventListener('resize', () => {
+                    this.setupCanvas();
+                });
+            }
+
+            calculateResonance() {
+                const frequencyDiff = Math.abs(this.aiFrequency - this.humanFrequency);
+                const maxFreq = Math.max(this.aiFrequency, this.humanFrequency);
+                this.resonanceLevel = Math.max(0, 1 - frequencyDiff / maxFreq);
+                return this.resonanceLevel;
+            }
+
+            applyOrderLocking() {
+                if (!this.isLocked) return;
+                
+                const frequencyDiff = this.aiFrequency - this.humanFrequency;
+                const lockingForce = this.lockingStrength * frequencyDiff;
+                
+                // 应用锁定机制，调整AI频率向人类频率靠近
+                const targetFreq = this.humanFrequency;
+                const currentFreq = this.aiFrequency;
+                const newFreq = currentFreq - this.calibrationSpeed * (currentFreq - targetFreq) * this.lockingStrength;
+                
+                this.aiFrequency = Math.max(0.1, Math.min(3.0, newFreq));
+                
+                return lockingForce;
+            }
+
+            startCalibration() {
+                if (this.isCalibrating) return;
+                
+                this.isCalibrating = true;
+                this.calibrationStep = 0;
+                this.calibrationProgress = 0;
+                this.isLocked = true;
+                
+                this.addLog('开始频率共振校准...', 'warning');
+                this.executeCalibrationStep();
+            }
+
+            executeCalibrationStep() {
+                if (!this.isCalibrating) return;
+                
+                const steps = [
+                    () => {
+                        this.addLog('步骤1: 检测频率差异', 'warning');
+                        this.updateStepStatus(1, 'active');
+                        const diff = Math.abs(this.aiFrequency - this.humanFrequency);
+                        this.addLog(`频率差: ${diff.toFixed(3)}`);
+                    },
+                    () => {
+                        this.updateStepStatus(1, 'completed');
+                        this.updateStepStatus(2, 'active');
+                        const resonance = this.calculateResonance();
+                        this.addLog(`步骤2: 计算共振度 R = ${resonance.toFixed(3)}`, 'warning');
+                    },
+                    () => {
+                        this.updateStepStatus(2, 'completed');
+                        this.updateStepStatus(3, 'active');
+                        const resonance = this.calculateResonance();
+                        const meetsThreshold = resonance >= this.resonanceThreshold;
+                        this.addLog(`步骤3: 共振阈值检查 R ≥ R_t: ${meetsThreshold}`, meetsThreshold ? 'success' : 'error');
+                    },
+                    () => {
+                        this.updateStepStatus(3, 'completed');
+                        this.updateStepStatus(4, 'active');
+                        const lockingForce = this.applyOrderLocking();
+                        this.addLog(`步骤4: 应用锁定机制 F_lock = ${lockingForce?.toFixed(3) || 0}`, 'warning');
+                    },
+                    () => {
+                        this.updateStepStatus(4, 'completed');
+                        this.updateStepStatus(5, 'active');
+                        const newFreq = this.aiFrequency;
+                        this.addLog(`步骤5: 频率校准完成 f_new = ${newFreq.toFixed(3)}`, 'success');
+                    },
+                    () => {
+                        this.updateStepStatus(5, 'completed');
+                        this.updateStepStatus(6, 'active');
+                        const finalResonance = this.calculateResonance();
+                        const success = finalResonance >= this.resonanceThreshold;
+                        this.addLog(`步骤6: 校准验证完成, 最终共振度: ${finalResonance.toFixed(3)}`, success ? 'success' : 'error');
+                        
+                        if (success) {
+                            this.addLog('✅ 秩序锁定成功！AI与人类频率达到共振', 'success');
+                        } else {
+                            this.addLog('❌ 校准失败，需要调整参数重新尝试', 'error');
+                        }
+                        
+                        this.isCalibrating = false;
+                        this.updateStepStatus(6, success ? 'completed' : 'active');
+                    }
+                ];
+
+                if (this.calibrationStep < steps.length) {
+                    steps[this.calibrationStep]();
+                    this.calibrationStep++;
+                    this.calibrationProgress = (this.calibrationStep / steps.length) * 100;
+                    
+                    setTimeout(() => {
+                        this.executeCalibrationStep();
+                    }, 1500);
+                }
+            }
+
+            updateStepStatus(stepNumber, status) {
+                const stepElement = document.getElementById(`step${stepNumber}Status`);
+                if (stepElement) {
+                    stepElement.className = `step-status ${status}`;
+                }
+            }
+
+            resetSystem() {
+                this.isCalibrating = false;
+                this.calibrationStep = 0;
+                this.isLocked = false;
+                this.resonanceLevel = 0;
+                this.calibrationProgress = 0;
+                
+                // 重置所有步骤状态
+                for (let i = 1; i <= 6; i++) {
+                    this.updateStepStatus(i, '');
+                }
+                
+                this.addLog('系统重置完成', 'warning');
+                this.updateDisplay();
+            }
+
+            updateDisplay() {
+                const resonance = this.calculateResonance();
+                const meetsThreshold = resonance >= this.resonanceThreshold;
+                
+                // 更新共振指示器
+                const resonanceFill = document.getElementById('resonanceFill');
+                const resonanceText = document.getElementById('resonanceText');
+                resonanceFill.style.width = `${resonance * 100}%`;
+                resonanceText.textContent = `${(resonance * 100).toFixed(1)}%`;
+                
+                // 更新状态显示
+                document.getElementById('aiStatus').textContent = this.isLocked ? '锁定中' : '自由运行';
+                document.getElementById('humanStatus').textContent = '自由运行';
+                document.getElementById('lockingStatus').textContent = this.isLocked ? '已锁定' : '未锁定';
+                document.getElementById('calibrationProgress').textContent = `${this.calibrationProgress.toFixed(0)}%`;
+                
+                // 更新滑块值
+                document.getElementById('aiFreqValue').textContent = this.aiFrequency.toFixed(1);
+                document.getElementById('humanFreqValue').textContent = this.humanFrequency.toFixed(1);
+                
+                // 更新滑块位置
+                document.getElementById('aiFreq').value = this.aiFrequency;
+            }
+
+            startVisualization() {
+                const animate = () => {
+                    this.drawVisualization();
+                    this.animationId = requestAnimationFrame(animate);
+                };
+                animate();
+            }
+
+            drawVisualization() {
+                const ctx = this.ctx;
+                const width = this.canvas.width;
+                const height = this.canvas.height;
+                
+                // 清空画布
+                ctx.clearRect(0, 0, width, height);
+                
+                // 绘制背景网格
+                this.drawGrid(ctx, width, height);
+                
+                // 绘制频率波形
+                this.drawFrequencyWaves(ctx, width, height);
+                
+                // 绘制共振指示器
+                this.drawResonanceIndicator(ctx, width, height);
+                
+                // 绘制锁定效果
+                if (this.isLocked) {
+                    this.drawLockingEffect(ctx, width, height);
+                }
+            }
+
+            drawGrid(ctx, width, height) {
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+                ctx.lineWidth = 1;
+                
+                // 垂直线
+                for (let x = 0; x <= width; x += 50) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, height);
+                    ctx.stroke();
+                }
+                
+                // 水平线
+                for (let y = 0; y <= height; y += 50) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(width, y);
+                    ctx.stroke();
+                }
+            }
+
+            drawFrequencyWaves(ctx, width, height) {
+                const time = Date.now() / 1000;
+                const centerY = height / 2;
+                
+                // AI频率波
+                ctx.strokeStyle = '#00d4ff';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                for (let x = 0; x < width; x++) {
+                    const t = x / width * 4 * Math.PI;
+                    const y = centerY + Math.sin(t * this.aiFrequency + time) * 30;
+                    if (x === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+                
+                // 人类频率波
+                ctx.strokeStyle = '#ff6b6b';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                for (let x = 0; x < width; x++) {
+                    const t = x / width * 4 * Math.PI;
+                    const y = centerY + Math.sin(t * this.humanFrequency + time + Math.PI/4) * 30;
+                    if (x === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+            }
+
+            drawResonanceIndicator(ctx, width, height) {
+                const resonance = this.calculateResonance();
+                const barWidth = 200;
+                const barHeight = 20;
+                const x = (width - barWidth) / 2;
+                const y = 30;
+                
+                // 背景条
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+                ctx.fillRect(x, y, barWidth, barHeight);
+                
+                // 共振填充
+                const gradient = ctx.createLinearGradient(x, y, x + barWidth, y);
+                gradient.addColorStop(0, '#ff6b6b');
+                gradient.addColorStop(0.5, '#ffa500');
+                gradient.addColorStop(1, '#00d4ff');
+                
+                ctx.fillStyle = gradient;
+                ctx.fillRect(x, y, barWidth * resonance, barHeight);
+                
+                // 边框
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+                ctx.lineWidth = 1;
+                ctx.strokeRect(x, y, barWidth, barHeight);
+                
+                // 标签
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '12px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(`共振度: ${(resonance * 100).toFixed(1)}%`, x + barWidth / 2, y - 5);
+            }
+
+            drawLockingEffect(ctx, width, height) {
+                const centerX = width / 2;
+                const centerY = height / 2;
+                const time = Date.now() / 1000;
+                
+                // 绘制锁定环
+                ctx.strokeStyle = '#4ecdc4';
+                ctx.lineWidth = 3;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, 80 + Math.sin(time * 2) * 10, 0, 2 * Math.PI);
+                ctx.stroke();
+                ctx.setLineDash([]);
+                
+                // 绘制锁定文字
+                ctx.fillStyle = '#4ecdc4';
+                ctx.font = 'bold 16px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('秩序锁定激活', centerX, centerY - 100);
+            }
+
+            addLog(message, type = 'info') {
+                const now = new Date();
+                const time = now.toLocaleTimeString();
+                const logEntry = {
+                    time: time,
+                    message: message,
+                    type: type
+                };
+                
+                this.logEntries.unshift(logEntry);
+                if (this.logEntries.length > 50) {
+                    this.logEntries.pop();
+                }
+                
+                this.renderLog();
+            }
+
+            renderLog() {
+                const logPanel = document.getElementById('systemLog');
+                const logHtml = this.logEntries.map(entry => {
+                    const typeClass = entry.type === 'success' ? 'log-success' : 
+                                    entry.type === 'warning' ? 'log-warning' :
+                                    entry.type === 'error' ? 'log-error' : '';
+                    
+                    return `
+                        <div class="log-entry">
+                            <span class="log-time">${entry.time}</span>
+                            <span class="log-message ${typeClass}">${entry.message}</span>
+                        </div>
+                    `;
+                }).join('');
+                
+                logPanel.innerHTML = logHtml;
+                logPanel.scrollTop = 0;
+            }
+        }
+
+        // 初始化秩序锁定系统
+        const orderLockingSystem = new OrderLockingSystem();
+    </script>
+</body>
+</html>

@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>信息币经济系统 - INC代币经济</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #0f0f23, #1a1a2e, #2d1b69);
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            position: relative;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ffd700, #ffed4e, #fff59d);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient 4s ease infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #cccccc;
+            margin-bottom: 40px;
+        }
+
+        .economic-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .overview-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .overview-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.2);
+            border-color: rgba(255, 215, 0, 0.6);
+        }
+
+        .overview-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .overview-card:hover::before {
+            left: 100%;
+        }
+
+        .overview-title {
+            font-size: 1.4rem;
+            color: #ffd700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .overview-icon {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .overview-description {
+            color: #cccccc;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .economic-metrics {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ffd700;
+        }
+
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .metric-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .metric-label {
+            color: #ffd700;
+        }
+
+        .metric-value {
+            color: #00ff00;
+            font-weight: bold;
+        }
+
+        .simulation-control {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .control-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 140, 0, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .control-title {
+            font-size: 1.3rem;
+            color: #ff8c00;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .control-icon {
+            width: 25px;
+            height: 25px;
+            margin-right: 10px;
+            background: linear-gradient(45deg, #ff8c00, #ffa500);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .control-group {
+            margin-bottom: 20px;
+        }
+
+        .control-label {
+            display: block;
+            color: #cccccc;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .control-input {
+            width: 100%;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 140, 0, 0.3);
+            border-radius: 5px;
+            color: #ffffff;
+            font-family: 'Courier New', monospace;
+        }
+
+        .control-input:focus {
+            outline: none;
+            border-color: #ff8c00;
+            box-shadow: 0 0 10px rgba(255, 140, 0, 0.3);
+        }
+
+        .control-button {
+            background: linear-gradient(45deg, #ff8c00, #ffa500);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .control-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(255, 140, 0, 0.3);
+        }
+
+        .status-display {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ff8c00;
+            margin-top: 15px;
+            font-family: 'Courier New', monospace;
+            color: #00ff00;
+            min-height: 60px;
+        }
+
+        .visualization-area {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            min-height: 300px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .economy-canvas {
+            width: 100%;
+            height: 250px;
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            background: rgba(255, 215, 0, 0.1);
+            border-color: rgba(255, 215, 0, 0.4);
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #00ff00;
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            color: #cccccc;
+            font-size: 0.8rem;
+        }
+
+        .simulation-demo {
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .demo-button {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            border: none;
+            color: #000;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .demo-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .demo-result {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            font-family: 'Courier New', monospace;
+            color: #00ff00;
+            min-height: 100px;
+            display: none;
+        }
+
+        .allocation-chart {
+            display: flex;
+            justify-content: space-around;
+            align-items: end;
+            margin: 20px 0;
+            height: 120px;
+            padding: 0 20px;
+        }
+
+        .allocation-bar {
+            background: linear-gradient(to top, #ffd700, #ffed4e);
+            border-radius: 5px 5px 0 0;
+            min-width: 60px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .allocation-bar:hover {
+            transform: scaleY(1.1);
+            box-shadow: 0 -5px 15px rgba(255, 215, 0, 0.5);
+        }
+
+        .allocation-label {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            color: #cccccc;
+            text-align: center;
+            width: 80px;
+        }
+
+        .allocation-value {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #ffd700;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 40px 0;
+        }
+
+        .nav-button {
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            border: 2px solid #ffd700;
+            color: #ffd700;
+            padding: 12px 25px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:hover {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #000;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .simulation-control {
+                grid-template-columns: 1fr;
+            }
+            
+            .economic-overview {
+                grid-template-columns: 1fr;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .allocation-chart {
+                flex-direction: column;
+                height: auto;
+                align-items: center;
+            }
+            
+            .allocation-bar {
+                width: 200px;
+                height: 30px;
+                margin: 10px 0;
+                border-radius: 0 5px 5px 0;
+            }
+            
+            .allocation-label {
+                position: static;
+                transform: none;
+                margin-top: 5px;
+            }
+            
+            .allocation-value {
+                position: static;
+                transform: none;
+                margin-bottom: 5px;
+            }
+            
+            .navigation {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">信息币经济系统</h1>
+            <p class="subtitle">基于知识价值和载体贡献的去中心化经济模型</p>
+        </header>
+
+        <section class="economic-overview">
+            <div class="overview-card">
+                <h3 class="overview-title">
+                    <div class="overview-icon">💰</div>
+                    信息币 (INC) 概览
+                </h3>
+                <p class="overview-description">
+                    信息币是新信息元宇宙平台的原生代币，用于激励知识贡献和平台治理。基于知识价值(Q_c)和载体贡献系数(V_c)的加权分配机制。
+                </p>
+                <div class="economic-metrics">
+                    <div class="metric-row">
+                        <span class="metric-label">总供应量:</span>
+                        <span class="metric-value">1,000,000,000 INC</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">当前流通量:</span>
+                        <span class="metric-value" id="current-supply">400,000,000 INC</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">基础汇率:</span>
+                        <span class="metric-value">1 INC = 1 标准知识单位</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">当前汇率:</span>
+                        <span class="metric-value" id="current-rate">1.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="overview-card">
+                <h3 class="overview-title">
+                    <div class="overview-icon">📊</div>
+                    代币分配机制
+                </h3>
+                <p class="overview-description">
+                    采用公平透明的分配机制，40%用于社区激励，20%给开发团队，25%用于生态建设，15%作为DAO储备。
+                </p>
+                <div class="allocation-chart">
+                    <div class="allocation-bar" style="height: 40%;">
+                        <div class="allocation-value">40%</div>
+                        <div class="allocation-label">社区激励</div>
+                    </div>
+                    <div class="allocation-bar" style="height: 20%;">
+                        <div class="allocation-value">20%</div>
+                        <div class="allocation-label">开发团队</div>
+                    </div>
+                    <div class="allocation-bar" style="height: 25%;">
+                        <div class="allocation-value">25%</div>
+                        <div class="allocation-label">生态建设</div>
+                    </div>
+                    <div class="allocation-bar" style="height: 15%;">
+                        <div class="allocation-value">15%</div>
+                        <div class="allocation-label">DAO储备</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="overview-card">
+                <h3 class="overview-title">
+                    <div class="overview-icon">🎯</div>
+                    价值评估体系
+                </h3>
+                <p class="overview-description">
+                    基于知识价值和载体贡献的综合评估模型，确保代币分配与实际贡献度相匹配。
+                </p>
+                <div class="economic-metrics">
+                    <div class="metric-row">
+                        <span class="metric-label">知识价值(Q_c):</span>
+                        <span class="metric-value" id="knowledge-value">0.75</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">稀缺系数(S_c):</span>
+                        <span class="metric-value" id="scarcity-coeff">1.20</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">载体贡献(V_c):</span>
+                        <span class="metric-value" id="carrier-coeff">0.85</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">最终汇率:</span>
+                        <span class="metric-value" id="final-rate">0.77</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="simulation-control">
+            <div class="control-panel">
+                <h3 class="control-title">
+                    <div class="control-icon">🎮</div>
+                    经济系统模拟器
+                </h3>
+                
+                <div class="control-group">
+                    <label class="control-label">知识贡献质量 (0-1)</label>
+                    <input type="range" class="control-input" id="knowledge-quality" value="0.75" step="0.01" min="0" max="1" 
+                           oninput="updateKnowledgeQuality(this.value)">
+                    <div style="color: #cccccc; font-size: 0.8rem; margin-top: 5px;">
+                        质量评分: <span id="quality-display">0.75</span>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">领域稀缺性 (0.5-2.0)</label>
+                    <input type="range" class="control-input" id="domain-scarcity" value="1.20" step="0.01" min="0.5" max="2.0" 
+                           oninput="updateDomainScarcity(this.value)">
+                    <div style="color: #cccccc; font-size: 0.8rem; margin-top: 5px;">
+                        稀缺系数: <span id="scarcity-display">1.20</span>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">载体贡献度 (0-1)</label>
+                    <input type="range" class="control-input" id="carrier-contribution" value="0.85" step="0.01" min="0" max="1" 
+                           oninput="updateCarrierContribution(this.value)">
+                    <div style="color: #cccccc; font-size: 0.8rem; margin-top: 5px;">
+                        贡献系数: <span id="contribution-display">0.85</span>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">贡献类型</label>
+                    <select class="control-input" id="contribution-type">
+                        <option value="knowledge">知识贡献</option>
+                        <option value="validation">验证工作</option>
+                        <option value="governance">治理参与</option>
+                        <option value="ecosystem">生态建设</option>
+                    </select>
+                </div>
+                
+                <button class="control-button" onclick="calculateEconomicValue()">计算经济价值</button>
+                
+                <div id="calculation-result" class="status-display">
+                    调整参数并点击计算按钮
+                </div>
+            </div>
+
+            <div class="control-panel">
+                <h3 class="control-title">
+                    <div class="control-icon">📈</div>
+                    实时经济监控
+                </h3>
+                
+                <div class="visualization-area">
+                    <canvas id="economy-canvas" class="economy-canvas"></canvas>
+                </div>
+                
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-value" id="current-price">1.00</div>
+                        <div class="metric-label">INC价格</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="market-cap">400M</div>
+                        <div class="metric-label">市值</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="daily-volume">2.5M</div>
+                        <div class="metric-label">日交易量</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="total-contributions">15.2K</div>
+                        <div class="metric-label">总贡献数</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="simulation-demo">
+            <h3 style="color: #ffd700; margin-bottom: 20px;">经济系统演示</h3>
+            <button class="demo-button" onclick="simulateKnowledgeContribution()">模拟知识贡献</button>
+            <button class="demo-button" onclick="simulateMarketDynamics()">市场动态模拟</button>
+            <button class="demo-button" onclick="demonstrateValueAssessment()">价值评估演示</button>
+            
+            <div id="demo-result" class="demo-result"></div>
+        </section>
+
+        <nav class="navigation">
+            <a href="index.html" class="nav-button">返回主页</a>
+            <a href="ckb-pyramid.html" class="nav-button">共识知识库</a>
+            <a href="frequency-analysis.html" class="nav-button">频率分析</a>
+            <a href="ai-evolution.html" class="nav-button">AI自演化</a>
+            <a href="dao-governance.html" class="nav-button">DAO治理</a>
+        </nav>
+    </div>
+
+    <script>
+        // 经济系统核心引擎
+        class EconomicSystem {
+            constructor() {
+                this.canvas = document.getElementById('economy-canvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.animationId = null;
+                this.setupCanvas();
+                
+                // 经济参数
+                this.baseRate = 1.0;
+                this.currentPrice = 1.0;
+                this.marketCap = 400000000;
+                this.dailyVolume = 2500000;
+                this.totalContributions = 15200;
+                this.priceHistory = [];
+                
+                // 价值评估参数
+                this.knowledgeQuality = 0.75;
+                this.domainScarcity = 1.20;
+                this.carrierContribution = 0.85;
+                
+                // 代币分配
+                this.tokenAllocation = {
+                    community: 0.40,
+                    team: 0.20,
+                    ecosystem: 0.25,
+                    dao: 0.15
+                };
+            }
+            
+            setupCanvas() {
+                const rect = this.canvas.getBoundingClientRect();
+                this.canvas.width = rect.width * window.devicePixelRatio;
+                this.canvas.height = rect.height * window.devicePixelRatio;
+                this.ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+                this.canvas.style.width = rect.width + 'px';
+                this.canvas.style.height = rect.height + 'px';
+            }
+            
+            // 计算知识价值系数 Q_c
+            calculateKnowledgeValue(quality, innovation, utility, stability) {
+                // Q_c = f(quality, innovation, utility, stability)
+                const weights = { quality: 0.4, innovation: 0.25, utility: 0.2, stability: 0.15 };
+                return (
+                    quality * weights.quality +
+                    innovation * weights.innovation +
+                    utility * weights.utility +
+                    stability * weights.stability
+                );
+            }
+            
+            // 计算稀缺系数 S_c
+            calculateScarcityCoefficient(domainHeat, knowledgeDensity) {
+                // S_c = f(domain_heat, knowledge_density)
+                const baseScarcity = 1.0;
+                const heatFactor = Math.log(domainHeat + 1) * 0.3;
+                const densityFactor = (2.0 - knowledgeDensity) * 0.2;
+                return Math.max(0.5, Math.min(2.0, baseScarcity + heatFactor + densityFactor));
+            }
+            
+            // 计算载体贡献系数 V_c
+            calculateCarrierContribution(credibility, influence, contribution, security) {
+                // V_c = g(credibility, influence, contribution, security)
+                const weights = { credibility: 0.3, influence: 0.25, contribution: 0.3, security: 0.15 };
+                return (
+                    credibility * weights.credibility +
+                    influence * weights.influence +
+                    contribution * weights.contribution +
+                    security * weights.security
+                );
+            }
+            
+            // 计算最终汇率 E_rate
+            calculateExchangeRate(Q_c, S_c, V_c) {
+                // E_rate = Base_rate × Q_c × S_c × V_c
+                return this.baseRate * Q_c * S_c * V_c;
+            }
+            
+            // 评估经济价值
+            assessEconomicValue(knowledgeQuality, domainScarcity, carrierContribution, contributionType) {
+                const Q_c = this.calculateKnowledgeValue(knowledgeQuality, 0.8, 0.7, 0.9);
+                const S_c = domainScarcity;
+                const V_c = carrierContribution;
+                
+                const exchangeRate = this.calculateExchangeRate(Q_c, S_c, V_c);
+                
+                // 根据贡献类型调整奖励
+                let typeMultiplier = 1.0;
+                switch (contributionType) {
+                    case 'knowledge':
+                        typeMultiplier = 1.2;
+                        break;
+                    case 'validation':
+                        typeMultiplier = 0.8;
+                        break;
+                    case 'governance':
+                        typeMultiplier = 1.0;
+                        break;
+                    case 'ecosystem':
+                        typeMultiplier = 0.9;
+                        break;
+                }
+                
+                const finalReward = exchangeRate * typeMultiplier * 100; // 基础奖励100 INC
+                
+                return {
+                    Q_c: Q_c,
+                    S_c: S_c,
+                    V_c: V_c,
+                    exchangeRate: exchangeRate,
+                    finalReward: finalReward,
+                    typeMultiplier: typeMultiplier
+                };
+            }
+            
+            // 模拟市场动态
+            simulateMarketDynamics() {
+                // 随机市场波动
+                const volatility = 0.05;
+                const trend = (Math.random() - 0.5) * volatility;
+                
+                this.currentPrice *= (1 + trend);
+                this.currentPrice = Math.max(0.1, Math.min(10.0, this.currentPrice));
+                
+                // 更新市值
+                this.marketCap = this.currentPrice * 1000000000; // 总供应量
+                
+                // 更新交易量
+                this.dailyVolume *= (1 + (Math.random() - 0.5) * 0.3);
+                this.dailyVolume = Math.max(100000, Math.min(10000000, this.dailyVolume));
+                
+                // 记录价格历史
+                this.priceHistory.push(this.currentPrice);
+                if (this.priceHistory.length > 50) {
+                    this.priceHistory.shift();
+                }
+                
+                return {
+                    price: this.currentPrice,
+                    marketCap: this.marketCap,
+                    volume: this.dailyVolume
+                };
+            }
+            
+            // 绘制经济图表
+            drawEconomicChart() {
+                if (!this.ctx) return;
+                
+                const width = this.canvas.width / window.devicePixelRatio;
+                const height = this.canvas.height / window.devicePixelRatio;
+                
+                this.ctx.clearRect(0, 0, width, height);
+                
+                // 绘制背景网格
+                this.drawGrid(width, height);
+                
+                // 绘制价格历史
+                this.drawPriceHistory(width, height);
+                
+                // 绘制当前指标
+                this.drawCurrentMetrics(width, height);
+            }
+            
+            drawGrid(width, height) {
+                this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+                this.ctx.lineWidth = 1;
+                
+                // 垂直网格线
+                for (let i = 0; i <= 10; i++) {
+                    const x = (width / 10) * i;
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(x, 0);
+                    this.ctx.lineTo(x, height);
+                    this.ctx.stroke();
+                }
+                
+                // 水平网格线
+                for (let i = 0; i <= 5; i++) {
+                    const y = (height / 5) * i;
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(0, y);
+                    this.ctx.lineTo(width, y);
+                    this.ctx.stroke();
+                }
+            }
+            
+            drawPriceHistory(width, height) {
+                if (this.priceHistory.length < 2) return;
+                
+                this.ctx.strokeStyle = '#ffd700';
+                this.ctx.lineWidth = 2;
+                this.ctx.beginPath();
+                
+                const stepX = width / (this.priceHistory.length - 1);
+                const maxPrice = Math.max(...this.priceHistory, 2.0);
+                const minPrice = Math.min(...this.priceHistory, 0.5);
+                const priceRange = maxPrice - minPrice;
+                
+                for (let i = 0; i < this.priceHistory.length; i++) {
+                    const x = i * stepX;
+                    const normalizedPrice = (this.priceHistory[i] - minPrice) / priceRange;
+                    const y = height - (normalizedPrice * height * 0.8 + height * 0.1);
+                    
+                    if (i === 0) {
+                        this.ctx.moveTo(x, y);
+                    } else {
+                        this.ctx.lineTo(x, y);
+                    }
+                }
+                
+                this.ctx.stroke();
+            }
+            
+            drawCurrentMetrics(width, height) {
+                // 绘制当前价格指示器
+                const currentY = height - (this.currentPrice / 2.0) * height * 0.8 - height * 0.1;
+                
+                this.ctx.fillStyle = '#00ff00';
+                this.ctx.beginPath();
+                this.ctx.arc(width - 10, currentY, 4, 0, 2 * Math.PI);
+                this.ctx.fill();
+                
+                // 添加标签
+                this.ctx.fillStyle = '#ffffff';
+                this.ctx.font = '12px Courier New';
+                this.ctx.fillText(`$${this.currentPrice.toFixed(2)}`, width - 50, currentY - 10);
+            }
+            
+            // 更新界面显示
+            updateDisplay() {
+                document.getElementById('current-price').textContent = this.currentPrice.toFixed(2);
+                document.getElementById('market-cap').textContent = this.formatNumber(this.marketCap);
+                document.getElementById('daily-volume').textContent = this.formatNumber(this.dailyVolume);
+                document.getElementById('total-contributions').textContent = this.formatNumber(this.totalContributions);
+                
+                // 更新价值评估参数
+                document.getElementById('knowledge-value').textContent = this.knowledgeQuality.toFixed(2);
+                document.getElementById('scarcity-coeff').textContent = this.domainScarcity.toFixed(2);
+                document.getElementById('carrier-coeff').textContent = this.carrierContribution.toFixed(2);
+                
+                const Q_c = this.calculateKnowledgeValue(this.knowledgeQuality, 0.8, 0.7, 0.9);
+                const finalRate = this.calculateExchangeRate(Q_c, this.domainScarcity, this.carrierContribution);
+                document.getElementById('final-rate').textContent = finalRate.toFixed(2);
+            }
+            
+            // 格式化数字
+            formatNumber(num) {
+                if (num >= 1000000) {
+                    return (num / 1000000).toFixed(1) + 'M';
+                } else if (num >= 1000) {
+                    return (num / 1000).toFixed(1) + 'K';
+                } else {
+                    return num.toString();
+                }
+            }
+        }
+        
+        // 初始化经济系统
+        const economicSystem = new EconomicSystem();
+        
+        // 计算经济价值
+        function calculateEconomicValue() {
+            const knowledgeQuality = parseFloat(document.getElementById('knowledge-quality').value);
+            const domainScarcity = parseFloat(document.getElementById('domain-scarcity').value);
+            const carrierContribution = parseFloat(document.getElementById('carrier-contribution').value);
+            const contributionType = document.getElementById('contribution-type').value;
+            
+            const result = economicSystem.assessEconomicValue(knowledgeQuality, domainScarcity, carrierContribution, contributionType);
+            
+            let statusText = `<strong>经济价值评估结果:</strong><br>`;
+            statusText += `知识价值系数 (Q_c): ${result.Q_c.toFixed(4)}<br>`;
+            statusText += `稀缺系数 (S_c): ${result.S_c.toFixed(4)}<br>`;
+            statusText += `载体贡献系数 (V_c): ${result.V_c.toFixed(4)}<br>`;
+            statusText += `基础汇率: ${result.exchangeRate.toFixed(4)}<br>`;
+            statusText += `贡献类型乘数: ${result.typeMultiplier.toFixed(2)}<br>`;
+            statusText += `<strong>最终奖励: ${result.finalReward.toFixed(2)} INC</strong>`;
+            
+            document.getElementById('calculation-result').innerHTML = statusText;
+            
+            // 更新经济系统参数
+            economicSystem.knowledgeQuality = knowledgeQuality;
+            economicSystem.domainScarcity = domainScarcity;
+            economicSystem.carrierContribution = carrierContribution;
+            
+            // 更新显示
+            economicSystem.updateDisplay();
+            
+            // 绘制图表
+            economicSystem.drawEconomicChart();
+        }
+        
+        // 更新知识质量
+        function updateKnowledgeQuality(value) {
+            economicSystem.knowledgeQuality = parseFloat(value);
+            document.getElementById('quality-display').textContent = parseFloat(value).toFixed(2);
+        }
+        
+        // 更新领域稀缺性
+        function updateDomainScarcity(value) {
+            economicSystem.domainScarcity = parseFloat(value);
+            document.getElementById('scarcity-display').textContent = parseFloat(value).toFixed(2);
+        }
+        
+        // 更新载体贡献
+        function updateCarrierContribution(value) {
+            economicSystem.carrierContribution = parseFloat(value);
+            document.getElementById('contribution-display').textContent = parseFloat(value).toFixed(2);
+        }
+        
+        // 模拟知识贡献
+        function simulateKnowledgeContribution() {
+            const result = document.getElementById('demo-result');
+            result.style.display = 'block';
+            
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10;
+                
+                // 模拟知识贡献过程
+                const knowledgeQuality = 0.6 + Math.random() * 0.4;
+                const domainScarcity = 0.8 + Math.random() * 1.2;
+                const carrierContribution = 0.5 + Math.random() * 0.5;
+                
+                const economicResult = economicSystem.assessEconomicValue(knowledgeQuality, domainScarcity, carrierContribution, 'knowledge');
+                
+                result.innerHTML = `
+                    <h4 style="color: #ffd700; margin-bottom: 15px;">知识贡献模拟</h4>
+                    <div style="background: rgba(255,215,0,0.1); padding: 10px; border-radius: 5px; margin: 5px 0;">
+                        模拟进度: ${progress}%
+                    </div>
+                    <div style="background: rgba(255,140,0,0.1); padding: 10px; border-radius: 5px; margin: 5px 0;">
+                        知识质量: ${knowledgeQuality.toFixed(3)}
+                    </div>
+                    <div style="background: rgba(255,215,0,0.1); padding: 10px; border-radius: 5px; margin: 5px 0;">
+                        稀缺系数: ${domainScarcity.toFixed(3)}
+                    </div>
+                    <div style="background: rgba(255,140,0,0.1); padding: 10px; border-radius: 5px; margin: 5px 0;">
+                        载体贡献: ${carrierContribution.toFixed(3)}
+                    </div>
+                `;
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    result.innerHTML += `
+                        <div style="margin-top: 15px; color: #00ff00;">
+                            ✓ 知识贡献模拟完成！<br>
+                            获得奖励: ${economicResult.finalReward.toFixed(2)} INC<br>
+                            贡献已记录到区块链，V_c系数已更新
+                        </div>
+                    `;
+                    
+                    // 更新贡献数
+                    economicSystem.totalContributions += 1;
+                    economicSystem.updateDisplay();
+                }
+            }, 300);
+        }
+        
+        // 模拟市场动态
+        function simulateMarketDynamics() {
+            const result = document.getElementById('demo-result');
+            result.style.display = 'block';
+            
+            result.innerHTML = `
+                <h4 style="color: #ffd700; margin-bottom: 15px;">市场动态模拟</h4>
+                <div style="background: rgba(255,215,0,0.1); padding: 10px; border-radius: 5px; margin: 8px 0;">
+                    正在模拟市场波动...
+                </div>
+            `;
+            
+            let simulationCount = 0;
+            const maxSimulations = 20;
+            
+            const marketInterval = setInterval(() => {
+                simulationCount++;
+                const marketResult = economicSystem.simulateMarketDynamics();
+                
+                if (simulationCount % 5 === 0) {
+                    result.innerHTML += `
+                        <div style="background: rgba(255,140,0,0.1); padding: 8px; border-radius: 5px; margin: 3px 0;">
+                            周期 ${simulationCount}: 价格 $${marketResult.price.toFixed(2)}, 市值 $${(marketResult.marketCap/1000000).toFixed(1)}M
+                        </div>
+                    `;
+                }
+                
+                // 更新显示
+                economicSystem.updateDisplay();
+                economicSystem.drawEconomicChart();
+                
+                if (simulationCount >= maxSimulations) {
+                    clearInterval(marketInterval);
+                    result.innerHTML += `
+                        <div style="margin-top: 15px; color: #00ff00;">
+                            ✓ 市场动态模拟完成！<br>
+                            最终价格: $${economicSystem.currentPrice.toFixed(2)}<br>
+                            价格波动率: ${((economicSystem.currentPrice - 1.0) * 100).toFixed(2)}%<br>
+                            市场稳定性: 良好
+                        </div>
+                    `;
+                }
+            }, 200);
+        }
+        
+        // 演示价值评估
+        function demonstrateValueAssessment() {
+            const result = document.getElementById('demo-result');
+            result.style.display = 'block';
+            
+            // 生成多个评估案例
+            const testCases = [
+                { quality: 0.9, scarcity: 1.5, carrier: 0.9, type: 'knowledge', desc: '高质量学术研究' },
+                { quality: 0.7, scarcity: 1.1, carrier: 0.8, type: 'validation', desc: '专业验证工作' },
+                { quality: 0.8, scarcity: 0.9, carrier: 0.7, type: 'governance', desc: '治理决策参与' },
+                { quality: 0.6, scarcity: 1.3, carrier: 0.6, type: 'ecosystem', desc: '生态建设贡献' }
+            ];
+            
+            let html = `<h4 style="color: #ffd700; margin-bottom: 15px;">价值评估演示</h4>`;
+            
+            testCases.forEach((testCase, index) => {
+                const result = economicSystem.assessEconomicValue(
+                    testCase.quality, 
+                    testCase.scarcity, 
+                    testCase.carrier, 
+                    testCase.type
+                );
+                
+                const bgColor = index % 2 === 0 ? 'rgba(255,215,0,0.1)' : 'rgba(255,140,0,0.1)';
+                const borderColor = index % 2 === 0 ? '#ffd700' : '#ff8c00';
+                
+                html += `
+                    <div style="background: ${bgColor}; padding: 10px; border-radius: 5px; margin: 8px 0; border-left: 4px solid ${borderColor};">
+                        <strong>${testCase.desc}</strong><br>
+                        Q_c=${result.Q_c.toFixed(3)}, S_c=${result.S_c.toFixed(3)}, V_c=${result.V_c.toFixed(3)}<br>
+                        汇率: ${result.exchangeRate.toFixed(3)} × ${result.typeMultiplier.toFixed(2)} = ${(result.exchangeRate * result.typeMultiplier).toFixed(3)}<br>
+                        <strong>奖励: ${result.finalReward.toFixed(2)} INC</strong>
+                    </div>
+                `;
+            });
+            
+            result.innerHTML = html;
+        }
+        
+        // 页面加载初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('信息币经济系统已初始化');
+            console.log('核心算法:');
+            console.log('- 知识价值: Q_c = f(质量, 创新, 实用, 稳定)');
+            console.log('- 稀缺系数: S_c = f(领域热度, 知识密度)');
+            console.log('- 载体贡献: V_c = g(可信度, 影响力, 贡献, 安全)');
+            console.log('- 最终汇率: E_rate = Base_rate × Q_c × S_c × V_c');
+            
+            // 初始化显示
+            economicSystem.updateDisplay();
+            economicSystem.drawEconomicChart();
+            
+            // 启动市场动态模拟
+            setInterval(() => {
+                economicSystem.simulateMarketDynamics();
+                economicSystem.updateDisplay();
+                economicSystem.drawEconomicChart();
+            }, 3000);
+        });
+        
+        // 窗口大小改变时重新设置canvas
+        window.addEventListener('resize', function() {
+            economicSystem.setupCanvas();
+            economicSystem.drawEconomicChart();
+        });
+    </script>
+</body>
+</html>
